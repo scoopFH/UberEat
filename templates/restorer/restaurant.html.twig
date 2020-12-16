@@ -1,0 +1,35 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+	{{ restaurant.name }}
+{% endblock %}
+
+{% block body %}
+	<h1>Restaurant index</h1>
+
+	<table class="table">
+		<thead>
+			<tr>
+				<th>Id</th>
+				<th>Name</th>
+				<th>Picture</th>
+				<th>Address</th>
+				<th>City</th>
+				<th>Promotion</th>
+				<th>actions</th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr>
+				<td>{{ restaurant.name }}</td>
+				<td>{{ restaurant.picture }}</td>
+				<td>{{ restaurant.address }}</td>
+				<td>{{ restaurant.city }}</td>
+				<td>{{ restaurant.promotion }}</td>
+				<td>
+					<a href="{{ path('restaurant_edit', {'id': restaurant.id}) }}">edit</a>
+				</td>
+			</tr>
+		</tbody>
+	</table>
+{% endblock %}

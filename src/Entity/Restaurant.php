@@ -45,11 +45,6 @@ class Restaurant
     private $promotion;
 
     /**
-     * @ORM\ManyToOne(targetEntity=Dish::class, inversedBy="restaurant")
-     */
-    private $dish;
-
-    /**
      * @ORM\OneToMany(targetEntity=Order::class, mappedBy="restaurant")
      */
     private $orders;
@@ -59,9 +54,15 @@ class Restaurant
      */
     private $users;
 
+    /**
+     * @ORM\ManyToMany(targetEntity=Dish::class, inversedBy="restaurants")
+     */
+    private $dish;
+
     public function __construct()
     {
         $this->orders = new ArrayCollection();
+        $this->dish = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -129,18 +130,6 @@ class Restaurant
         return $this;
     }
 
-    public function getDish(): ?Dish
-    {
-        return $this->dish;
-    }
-
-    public function setDish(?Dish $dish): self
-    {
-        $this->dish = $dish;
-
-        return $this;
-    }
-
     /**
      * @return Collection|Order[]
      */
@@ -189,6 +178,30 @@ class Restaurant
         }
 
         $this->users = $users;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Dish[]
+     */
+    public function getDish(): Collection
+    {
+        return $this->dish;
+    }
+
+    public function addDish(Dish $dish): self
+    {
+        if (!$this->dish->contains($dish)) {
+            $this->dish[] = $dish;
+        }
+
+        return $this;
+    }
+
+    public function removeDish(Dish $dish): self
+    {
+        $this->dish->removeElement($dish);
 
         return $this;
     }

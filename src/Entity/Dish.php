@@ -35,13 +35,13 @@ class Dish
     private $preview;
 
     /**
-     * @ORM\OneToMany(targetEntity=Restaurant::class, mappedBy="dish")
+     * @ORM\ManyToMany(targetEntity=Restaurant::class, mappedBy="dish")
      */
-    private $restaurant;
+    private $restaurants;
 
     public function __construct()
     {
-        $this->restaurant = new ArrayCollection();
+        $this->restaurants = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -88,16 +88,16 @@ class Dish
     /**
      * @return Collection|Restaurant[]
      */
-    public function getRestaurant(): Collection
+    public function getRestaurants(): Collection
     {
-        return $this->restaurant;
+        return $this->restaurants;
     }
 
     public function addRestaurant(Restaurant $restaurant): self
     {
-        if (!$this->restaurant->contains($restaurant)) {
-            $this->restaurant[] = $restaurant;
-            $restaurant->setDish($this);
+        if (!$this->restaurants->contains($restaurant)) {
+            $this->restaurants[] = $restaurant;
+            $restaurant->addDish($this);
         }
 
         return $this;
@@ -105,11 +105,8 @@ class Dish
 
     public function removeRestaurant(Restaurant $restaurant): self
     {
-        if ($this->restaurant->removeElement($restaurant)) {
-            // set the owning side to null (unless already changed)
-            if ($restaurant->getDish() === $this) {
-                $restaurant->setDish(null);
-            }
+        if ($this->restaurants->removeElement($restaurant)) {
+            $restaurant->removeDish($this);
         }
 
         return $this;
