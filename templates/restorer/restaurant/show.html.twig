@@ -5,12 +5,11 @@
 {% endblock %}
 
 {% block body %}
-	<h1>Restaurant index</h1>
+	<h1>{{ restaurant.name }}</h1>
 
 	<table class="table">
 		<thead>
 			<tr>
-				<th>Id</th>
 				<th>Name</th>
 				<th>Picture</th>
 				<th>Address</th>
@@ -27,7 +26,7 @@
 				<td>{{ restaurant.city }}</td>
 				<td>{{ restaurant.promotion }}</td>
 				<td>
-					<a href="{{ path('restaurant_edit', {'id': restaurant.id}) }}">edit</a>
+					<a href="{{ path('my_restaurant_edit') }}">edit</a>
 				</td>
 			</tr>
 		</tbody>

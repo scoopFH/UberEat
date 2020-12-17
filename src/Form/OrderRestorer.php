@@ -10,18 +10,13 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 
-class OrderType extends AbstractType
+class OrderRestorer extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
             ->add('delivery_date', DateType::class)
-            ->add('state')
-            ->add('restaurant', EntityType::class, [
-                'class' => Restaurant::class,
-                'choice_label' => 'name',
-                'expanded' => true
-            ]);
+            ->add('state');
     }
 
     public function configureOptions(OptionsResolver $resolver)

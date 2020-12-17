@@ -39,9 +39,15 @@ class Dish
      */
     private $restaurants;
 
+    /**
+     * @ORM\ManyToMany(targetEntity=Order::class, mappedBy="Dish")
+     */
+    private $orders;
+
     public function __construct()
     {
         $this->restaurants = new ArrayCollection();
+        $this->orders = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -107,6 +113,33 @@ class Dish
     {
         if ($this->restaurants->removeElement($restaurant)) {
             $restaurant->removeDish($this);
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Order[]
+     */
+    public function getOrders(): Collection
+    {
+        return $this->orders;
+    }
+
+    public function addOrder(Order $order): self
+    {
+        if (!$this->orders->contains($order)) {
+            $this->orders[] = $order;
+            $order->addDish($this);
+        }
+
+        return $this;
+    }
+
+    public function removeOrder(Order $order): self
+    {
+        if ($this->orders->removeElement($order)) {
+            $order->removeDish($this);
         }
 
         return $this;
