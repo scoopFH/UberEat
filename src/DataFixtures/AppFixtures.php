@@ -9,17 +9,9 @@ use App\Entity\User;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
 use Faker;
-use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
 class AppFixtures extends Fixture
 {
-    private $encoder;
-
-    public function __construct(UserPasswordEncoderInterface $encoder)
-    {
-        $this->encoder = $encoder;
-    }
-
     public function load(ObjectManager $manager)
     {
         $faker = Faker\Factory::create();
@@ -60,12 +52,9 @@ class AppFixtures extends Fixture
             ->setaddress('521 rue de la Vilette')
             ->setCity('Lyon')
             ->setBalance(30)
-            ->setRoles(['ROLE_ADMIN']);
+            ->setRoles(['ROLE_ADMIN'])
+            ->setPassword('password');
 
-        $user->setPassword($this->encoder->encodePassword(
-            $user,
-            'password'
-        ));
         $manager->persist($user);
 
         $user = new User();
@@ -77,17 +66,14 @@ class AppFixtures extends Fixture
             ->setBalance(600)
             ->setRoles(['ROLE_RESTORER'])
             ->setRestaurant($restaurants[$faker->numberBetween(0, count($restaurants) - 1)])
-            ->setPassword($this->encoder->encodePassword(
-                $user,
-                'password'
-            ));
+            ->setPassword('password');
         $manager->persist($user);
 
         $order = new Order();
         $order->setRestaurant($restaurants[$faker->numberBetween(0, count($restaurants) - 1)])
             ->setUsers($user)
             ->setDeliveryDate($faker->dateTime())
-            ->setState($states[$faker->numberBetween(0, count($states))])
+            ->setState($states[$faker->numberBetween(0, count($states) - 1)])
             ->addDish($dishes[$faker->numberBetween(0, count($dishes) - 1)]);
         $manager->persist($order);
 
