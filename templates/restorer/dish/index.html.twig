@@ -22,8 +22,8 @@
 					<td>{{ dish.price }}</td>
 					<td>{{ dish.preview }}</td>
 					<td style="display: flex; align-items: center;">
-						<a href="{{ path('my_dish_edit', {'id': dish.id}) }}">edit</a>
-						<form method="post" action="{{ path('my_dish_delete', {'id': dish.id}) }}" onsubmit="return confirm('Are you sure you want to delete this item?');">
+						<a href="{{ path('restorer_dish_edit', {'id': dish.id}) }}">edit</a>
+						<form method="post" action="{{ path('restorer_dish_delete', {'id': dish.id}) }}" onsubmit="return confirm('Are you sure you want to delete this item?');">
 							<input type="hidden" name="_method" value="DELETE">
 							<input type="hidden" name="_token" value="{{ csrf_token('delete' ~ dish.id) }}">
 							<button class="btn">Delete</button>
@@ -38,5 +38,5 @@
 		</tbody>
 	</table>
 
-	<a href="{{ path('my_dish_new') }}">Create new</a>
+	<a href="{{ path('restorer_dish_new') }}">Create new</a>
 {% endblock %}

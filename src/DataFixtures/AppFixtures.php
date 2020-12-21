@@ -27,6 +27,8 @@ class AppFixtures extends Fixture
         $restaurants = [];
         $dishes = [];
 
+        $states = array('delivered', 'in delivering', 'in preparation');
+
         for ($i = 0; $i < 25; $i++) {
             $dish = new Dish();
             $dish
@@ -46,6 +48,7 @@ class AppFixtures extends Fixture
                 ->setCity($faker->city())
                 ->setPromotion($faker->imageUrl())
                 ->addDish($dishes[$faker->numberBetween(0, count($dishes) - 1)]);
+
             $manager->persist($restaurant);
             $restaurants[] = $restaurant;
         }
@@ -82,8 +85,10 @@ class AppFixtures extends Fixture
 
         $order = new Order();
         $order->setRestaurant($restaurants[$faker->numberBetween(0, count($restaurants) - 1)])
-        ->setUsers($user)
-        ->setDeliveryDate($faker->dateTime());
+            ->setUsers($user)
+            ->setDeliveryDate($faker->dateTime())
+            ->setState($states[$faker->numberBetween(0, count($states))])
+            ->addDish($dishes[$faker->numberBetween(0, count($dishes) - 1)]);
         $manager->persist($order);
 
         $manager->flush();

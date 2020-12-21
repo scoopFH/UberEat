@@ -13,11 +13,11 @@ use Symfony\Component\Routing\Annotation\Route;
 class DishController extends AbstractController
 {
     /**
-     * @Route("/admin/dish/", name="dish_index", methods={"GET"})
+     * @Route("/admin/dish", name="dish_index", methods={"GET"})
      */
     public function index(DishRepository $dishRepository): Response
     {
-        return $this->render('dish/index.html.twig', [
+        return $this->render('admin/dish/index.html.twig', [
             'dishes' => $dishRepository->findAll(),
         ]);
     }
@@ -39,7 +39,7 @@ class DishController extends AbstractController
             return $this->redirectToRoute('dish_index');
         }
 
-        return $this->render('dish/new.html.twig', [
+        return $this->render('admin/dish/new.html.twig', [
             'dish' => $dish,
             'form' => $form->createView(),
         ]);
@@ -50,7 +50,7 @@ class DishController extends AbstractController
      */
     public function show(Dish $dish): Response
     {
-        return $this->render('dish/show.html.twig', [
+        return $this->render('admin/dish/show.html.twig', [
             'dish' => $dish,
         ]);
     }
@@ -69,7 +69,7 @@ class DishController extends AbstractController
             return $this->redirectToRoute('dish_index');
         }
 
-        return $this->render('dish/edit.html.twig', [
+        return $this->render('admin/dish/edit.html.twig', [
             'dish' => $dish,
             'form' => $form->createView(),
         ]);
@@ -90,20 +90,20 @@ class DishController extends AbstractController
     }
 
     /**
-     * @Route("/restorer/dish", name="my_dish_index", methods={"GET"})
+     * @Route("/restorer/dish", name="restorer_dish_index", methods={"GET"})
      */
     public function showMyDishes(): Response
     {
         $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
         $dishes = $this->getUser()->getRestaurant()->getDish();
 
-        return $this->render('restorer/dishes/show.html.twig', [
+        return $this->render('restorer/dish/index.html.twig', [
             'dishes' => $dishes,
         ]);
     }
 
     /**
-     * @Route("/restorer/dish/{id}/edit", name="my_dish_edit", methods={"GET","POST"})
+     * @Route("/restorer/dish/{id}/edit", name="restorer_dish_edit", methods={"GET","POST"})
      */
     public function editMyDish(Request $request, Dish $dish): Response
     {
@@ -123,7 +123,7 @@ class DishController extends AbstractController
             if ($form->isSubmitted() && $form->isValid()) {
                 $this->getDoctrine()->getManager()->flush();
 
-                return $this->redirectToRoute('my_dish_index');
+                return $this->redirectToRoute('restorer_dish_index');
             }
 
             return $this->render('dish/edit.html.twig', [
@@ -132,11 +132,11 @@ class DishController extends AbstractController
             ]);
         }
 
-        return $this->redirectToRoute('my_dish_index');
+        return $this->redirectToRoute('restorer_dish_index');
     }
 
     /**
-     * @Route("/restorer/dish/{id}", name="my_dish_delete", methods={"DELETE"})
+     * @Route("/restorer/dish/{id}", name="restorer_dish_delete", methods={"DELETE"})
      */
     public function deleteMyDish(Request $request, Dish $dish): Response
     {
@@ -155,13 +155,13 @@ class DishController extends AbstractController
             $entityManager->flush();
         }
 
-        return $this->redirectToRoute('my_dish_index');
+        return $this->redirectToRoute('restorer_dish_index');
     }
 
     /**
-     * @Route("/restorer/dish/new", name="my_dish_new", methods={"GET","POST"})
+     * @Route("/restorer/dish/new", name="restorer_dish_new", methods={"GET","POST"})
      */
-    public function createMyDish(Request $request): Response
+    public function createRestorerDish(Request $request): Response
     {
         $restaurant = $this->getUser()->getRestaurant();
         $dish = new Dish();
@@ -175,12 +175,35 @@ class DishController extends AbstractController
             $entityManager->persist($dish);
             $entityManager->flush();
 
-            return $this->redirectToRoute('my_dish_index');
+            return $this->redirectToRoute('restorer_dish_index');
         }
 
-        return $this->render('dish/new.html.twig', [
+        return $this->render('restorer/dish/new.html.twig', [
             'dish' => $dish,
             'form' => $form->createView(),
         ]);
+    }
+
+    /**
+     * @Route("/restorer/dish/{id}", name="restorer_dish_delete", methods={"DELETE"})
+     */
+    public function deleteRestorerDish(Request $request, Dish $dish): Response
+    {
+        $userOwnDish = false;
+        $dishes = $this->getUser()->getRestaurant()->getDish();
+
+        foreach ($dishes as &$myDish) {
+            if ($myDish->getId() == $dish->getId()) {
+                $userOwnDish = true;
+            }
+        }
+
+        if ($this->isCsrfTokenValid('delete' . $dish->getId(), $request->request->get('_token')) && $userOwnDish) {
+            $entityManager = $this->getDoctrine()->getManager();
+            $entityManager->remove($dish);
+            $entityManager->flush();
+        }
+
+        return $this->redirectToRoute('restorer_dish_index');
     }
 }

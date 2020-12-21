@@ -9,6 +9,7 @@ use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 
 class OrderRestorer extends AbstractType
 {
@@ -16,7 +17,13 @@ class OrderRestorer extends AbstractType
     {
         $builder
             ->add('delivery_date', DateType::class)
-            ->add('state');
+            ->add('state', ChoiceType::class, [
+                'choices' => [
+                    'in preparation' => 'in preparation',
+                    'delivered' => 'delivered',
+                    'in delivering' => 'in delivering',
+                ],
+            ]);
     }
 
     public function configureOptions(OptionsResolver $resolver)

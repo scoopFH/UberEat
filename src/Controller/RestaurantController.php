@@ -4,7 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Restaurant;
 use App\Form\RestaurantType;
-use App\Form\RestaurantCreation;
+use App\Form\RestaurantRestorer;
 use App\Repository\RestaurantRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -18,7 +18,7 @@ class RestaurantController extends AbstractController
      */
     public function index(RestaurantRepository $restaurantRepository): Response
     {
-        return $this->render('restaurant/index.html.twig', [
+        return $this->render('admin/restaurant/index.html.twig', [
             'restaurants' => $restaurantRepository->findAll(),
         ]);
     }
@@ -40,7 +40,7 @@ class RestaurantController extends AbstractController
             return $this->redirectToRoute('restaurant_index');
         }
 
-        return $this->render('restaurant/new.html.twig', [
+        return $this->render('admin/restaurant/new.html.twig', [
             'restaurant' => $restaurant,
             'form' => $form->createView(),
         ]);
@@ -51,7 +51,7 @@ class RestaurantController extends AbstractController
      */
     public function show(Restaurant $restaurant): Response
     {
-        return $this->render('restaurant/show.html.twig', [
+        return $this->render('admin/restaurant/show.html.twig', [
             'restaurant' => $restaurant,
         ]);
     }
@@ -70,7 +70,7 @@ class RestaurantController extends AbstractController
             return $this->redirectToRoute('restaurant_index');
         }
 
-        return $this->render('restaurant/edit.html.twig', [
+        return $this->render('admin/restaurant/edit.html.twig', [
             'restaurant' => $restaurant,
             'form' => $form->createView(),
         ]);
@@ -91,33 +91,33 @@ class RestaurantController extends AbstractController
     }
 
     /**
-     * @Route("/restorer/restaurant", name="my_restaurant_show", methods={"GET"})
+     * @Route("/restorer/restaurant", name="restorer_restaurant_index", methods={"GET"})
      */
     public function showMyRestaurant(): Response
     {
         $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
         $restaurant = $this->getUser()->getRestaurant();
 
-        return $this->render('restorer/restaurant/show.html.twig', [
+        return $this->render('restorer/restaurant/index.html.twig', [
             'restaurant' => $restaurant,
         ]);
     }
 
     /**
-     * @Route("/restorer/restaurant/edit", name="my_restaurant_edit", methods={"GET","POST"})
+     * @Route("/restorer/restaurant/edit", name="restorer_restaurant_edit", methods={"GET","POST"})
      */
     public function editMyRestaurant(Request $request): Response
     {
         $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
         $restaurant = $this->getUser()->getRestaurant();
 
-        $form = $this->createForm(RestaurantCreation::class, $restaurant);
+        $form = $this->createForm(RestaurantRestorer::class, $restaurant);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
             $this->getDoctrine()->getManager()->flush();
 
-            return $this->redirectToRoute('my_restaurant_show');
+            return $this->redirectToRoute('restorer_restaurant_index');
         }
 
         return $this->render('restorer/restaurant/edit.html.twig', [

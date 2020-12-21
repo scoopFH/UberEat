@@ -14,17 +14,17 @@ use Symfony\Component\Routing\Annotation\Route;
 class OrderController extends AbstractController
 {
     /**
-     * @Route("/", name="order_index", methods={"GET"})
+     * @Route("/admin/order", name="order_index", methods={"GET"})
      */
     public function index(OrderRepository $orderRepository): Response
     {
-        return $this->render('order/index.html.twig', [
+        return $this->render('admin/order/index.html.twig', [
             'orders' => $orderRepository->findAll(),
         ]);
     }
 
     /**
-     * @Route("/new", name="order_new", methods={"GET","POST"})
+     * @Route("/admin/order/new", name="order_new", methods={"GET","POST"})
      */
     public function new(Request $request): Response
     {
@@ -40,24 +40,24 @@ class OrderController extends AbstractController
             return $this->redirectToRoute('order_index');
         }
 
-        return $this->render('order/new.html.twig', [
+        return $this->render('admin/order/new.html.twig', [
             'order' => $order,
             'form' => $form->createView(),
         ]);
     }
 
     /**
-     * @Route("/{id}", name="order_show", methods={"GET"})
+     * @Route("/admin/show/{id}", name="admin_order_show", methods={"GET"})
      */
     public function show(Order $order): Response
     {
-        return $this->render('order/show.html.twig', [
+        return $this->render('admin/order/show.html.twig', [
             'order' => $order,
         ]);
     }
 
     /**
-     * @Route("/{id}/edit", name="order_edit", methods={"GET","POST"})
+     * @Route("/admin/{id}/edit", name="order_edit", methods={"GET","POST"})
      */
     public function edit(Request $request, Order $order): Response
     {
@@ -70,14 +70,14 @@ class OrderController extends AbstractController
             return $this->redirectToRoute('order_index');
         }
 
-        return $this->render('order/edit.html.twig', [
+        return $this->render('admin/order/edit.html.twig', [
             'order' => $order,
             'form' => $form->createView(),
         ]);
     }
 
     /**
-     * @Route("/{id}", name="order_delete", methods={"DELETE"})
+     * @Route("/admin/{id}", name="order_delete", methods={"DELETE"})
      */
     public function delete(Request $request, Order $order): Response
     {
@@ -91,20 +91,20 @@ class OrderController extends AbstractController
     }
 
     /**
-     * @Route("/restorer/order", name="my_order_show", methods={"GET"})
+     * @Route("/restorer/order", name="restorer_order_index", methods={"GET"})
      */
-    public function showMyOrders(): Response
+    public function showRestorerOrders(): Response
     {
         $orders = $this->getUser()->getRestaurant()->getOrders();
-        return $this->render('restorer/orders/show.html.twig', [
+        return $this->render('restorer/order/index.html.twig', [
             'orders' => $orders,
         ]);
     }
 
     /**
-     * @Route("/restorer/order/{id}/edit", name="my_order_edit", methods={"GET","POST"})
+     * @Route("/restorer/order/{id}/edit", name="restorer_order_edit", methods={"GET","POST"})
      */
-    public function editMyDish(Request $request, Order $order): Response
+    public function editRestorerDish(Request $request, Order $order): Response
     {
         $userOwnOrder = false;
         $orders = $this->getUser()->getRestaurant()->getOrders();
@@ -122,15 +122,15 @@ class OrderController extends AbstractController
             if ($form->isSubmitted() && $form->isValid()) {
                 $this->getDoctrine()->getManager()->flush();
 
-                return $this->redirectToRoute('my_order_show');
+                return $this->redirectToRoute('restorer_order_index');
             }
 
-            return $this->render('order/edit.html.twig', [
+            return $this->render('restorer/order/edit.html.twig', [
                 'order' => $order,
                 'form' => $form->createView(),
             ]);
         }
 
-        return $this->redirectToRoute('my_order_show');
+        return $this->redirectToRoute('restorer_order_index');
     }
 }

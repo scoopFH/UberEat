@@ -41,7 +41,7 @@ class Order
     private $Dish;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="string", length=255, columnDefinition="ENUM('delivered', 'in delivering', 'in preparation')") )
      */
     private $state;
 
@@ -122,8 +122,10 @@ class Order
 
     public function setState(string $state): self
     {
+        if (!in_array($state, array('delivered', 'in delivering', 'in preparation'))) {
+            throw new \InvalidArgumentException("Invalid state");
+        }
         $this->state = $state;
-
         return $this;
     }
 }

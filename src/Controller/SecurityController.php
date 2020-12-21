@@ -10,12 +10,20 @@ use App\Entity\Restaurant;
 use Symfony\Component\HttpFoundation\Request;
 use App\Entity\User;
 use App\Form\Register;
-use App\Form\RestaurantCreation;
+use App\Form\RestaurantRestorer;
 use App\Repository\UserRepository;
 use App\Repository\RestaurantRepository;
+use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
 class SecurityController extends AbstractController
 {
+    private $encoder;
+
+    public function __construct(UserPasswordEncoderInterface $encoder)
+    {
+        $this->encoder = $encoder;
+    }
+
     /**
      * @Route("/login", name="app_login")
      */
@@ -55,17 +63,17 @@ class SecurityController extends AbstractController
             $entityManager->persist($user);
             $entityManager->flush();
 
-            return $this->redirectToRoute('register_user');
+            return $this->redirectToRoute('app_login');
         }
 
-        return $this->render('index/register.html.twig', [
+        return $this->render('security/register.html.twig', [
             'user' => $user,
             'form' => $form->createView(),
         ]);
     }
 
     /**
-     * @Route("/register/restorer/{restaurantId}", name="register_restorer", methods={"GET","POST"})
+     * @Route("/register/restorer/{restaurantId}", name="restorer_register", methods={"GET","POST"})
      */
     public function registerRestorer(Request $request, int $restaurantId, RestaurantRepository $restaurantrepo): Response
     {
@@ -88,10 +96,10 @@ class SecurityController extends AbstractController
             $entityManager->persist($user);
             $entityManager->flush();
 
-            return $this->redirectToRoute('user_index');
+            return $this->redirectToRoute('app_login');
         }
 
-        return $this->render('index/register.html.twig', [
+        return $this->render('security/register.html.twig', [
             'user' => $user,
             'form' => $form->createView(),
         ]);
@@ -103,7 +111,7 @@ class SecurityController extends AbstractController
     public function new(Request $request): Response
     {
         $restaurant = new Restaurant();
-        $form = $this->createForm(RestaurantCreation::class, $restaurant);
+        $form = $this->createForm(RestaurantRestorer::class, $restaurant);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {

@@ -1,0 +1,13 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Edit Dish{% endblock %}
+
+{% block body %}
+    <h1>Edit Dish</h1>
+
+    {{ include('restorer/dish/_form.html.twig', {'button_label': 'Update'}) }}
+
+    <a href="{{ path('restorer_dish_index') }}">back to list</a>
+
+    {{ include('restorer/dish/_delete_form.html.twig') }}
+{% endblock %}
