@@ -13,16 +13,9 @@ use App\Form\Register;
 use App\Form\RestaurantRestorer;
 use App\Repository\UserRepository;
 use App\Repository\RestaurantRepository;
-use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
 class SecurityController extends AbstractController
 {
-    private $encoder;
-
-    public function __construct(UserPasswordEncoderInterface $encoder)
-    {
-        $this->encoder = $encoder;
-    }
 
     /**
      * @Route("/login", name="app_login")

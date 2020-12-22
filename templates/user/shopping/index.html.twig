@@ -1,0 +1,57 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}my order
+{% endblock %}
+
+{% block body %}
+	<div class="bg-light p-3">
+		<h1>My order</h1>
+	</div>
+
+	{% if items | length > 0 %}
+		<table class="table">
+			<thead>
+				<tr>
+					<th></th>
+					<th>Name</th>
+					<th>Price</th>
+					<th>Quantity</th>
+					<th>Total</th>
+					<th>Actions</th>
+				</tr>
+			</thead>
+			<tbody>
+				{% for item in items %}
+					<tr>
+						<td class="overflow-hidden" style="width: 24%; height: 200px"><img class="w-100" src="{{ item.dish.preview }}" alt=" {{ item.dish.name }} ">
+						</td>
+						<td>{{ item.dish.name }}</td>
+						<td>{{ item.dish.price }}</td>
+						<td>{{ item.quantity }}</td>
+						<td>{{ item.dish.price * item.quantity }}</td>
+						<td>
+							<a href="{{ path('shopping_add', {'id': item.dish.id}) }}" class="btn btn-sm btn-primary">
+								add
+							</a>
+							<a href="{{ path('shopping_remove', {'id': item.dish.id}) }}" class="btn btn-sm btn-danger">
+								remove
+							</a>
+						</td>
+					</tr>
+				{% endfor %}
+			</tbody>
+			<tfoot>
+				<tr>
+					<th colspan="4" class="text-right">
+						Total :
+					</th>
+					<th>{{ total }}
+						€</th>
+					<th></th>
+				</tr>
+			</tfoot>
+		</table>
+	{% else %}
+		<p>there is no dishes in your order</p>
+	{% endif %}
+{% endblock %}

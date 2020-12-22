@@ -6,7 +6,7 @@
 
 	<div class="collapse navbar-collapse" id="navbarSupportedContent">
 		<ul class="navbar-nav mr-auto">
-			{% if app.user == null or ('ROLE_RESTORER' or 'ROLE_ADMIN') not in app.user.roles %}
+			{% if app.user == null or 'ROLE_USER' in app.user.roles and app.user.roles|length == 1 %}
 				<li class="nav-item">
 					<a class="nav-link">Home
 						<span class="sr-only">(current)</span>
@@ -24,6 +24,9 @@
 					<a class="nav-link" href="{{ path('restaurant_index') }}">restaurants</a>
 					<a class="nav-link" href="{{ path('order_index') }}">orders</a>
 					<a class="nav-link" href="{{ path('dish_index') }}">dishes</a>
+				{% endif %}
+				{% if 'ROLE_USER' in app.user.roles and app.user.roles|length == 1 %}
+					<a class="nav-link" href="{{ path('shopping_index') }}">my order</a>
 				{% endif %}
 			{% endif %}
 		</ul>
