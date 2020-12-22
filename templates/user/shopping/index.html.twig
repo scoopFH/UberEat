@@ -23,17 +23,17 @@
 			<tbody>
 				{% for item in items %}
 					<tr>
-						<td class="overflow-hidden" style="width: 24%; height: 200px"><img class="w-100" src="{{ item.dish.preview }}" alt=" {{ item.dish.name }} ">
+						<td class="w-25"><img class="w-100" style="object-fit: cover; height: 200px;" src="{{ item.dish.preview }}" alt=" {{ item.dish.name }} ">
 						</td>
 						<td>{{ item.dish.name }}</td>
 						<td>{{ item.dish.price }}</td>
 						<td>{{ item.quantity }}</td>
 						<td>{{ item.dish.price * item.quantity }}</td>
 						<td>
-							<a href="{{ path('shopping_add', {'id': item.dish.id}) }}" class="btn btn-sm btn-primary">
+							<a href="{{ path('shopping_add', {'id': item.dish.id}) }}" class="btn btn-primary">
 								add
 							</a>
-							<a href="{{ path('shopping_remove', {'id': item.dish.id}) }}" class="btn btn-sm btn-danger">
+							<a href="{{ path('shopping_remove', {'id': item.dish.id}) }}" class="btn btn-danger">
 								remove
 							</a>
 						</td>
