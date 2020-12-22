@@ -1,0 +1,14 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Home
+{% endblock %}
+
+{% block body %}
+	{{ include('components/restaurant/carousel.html.twig', { restaurants: highlightedRestaurants }) }}
+	<div class="jumbotron mt-5">
+		<h1 class="display-4">Ubereat</h1>
+		<p class="lead">
+			here is the list of your favorite restaurants</p>
+	</div>
+	{{ include('components/restaurant/restaurants_list.html.twig', { restaurants: restaurants }) }}
+{% endblock %}

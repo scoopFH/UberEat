@@ -15,5 +15,22 @@ use App\Repository\RestaurantRepository;
 
 class IndexController extends AbstractController
 {
+    /**
+     * @Route("/", name="home", methods={"GET"})
+     */
+    public function Home(RestaurantRepository $restaurantRepository): Response
+    {
+        $restaurantsShowCarousel = 3;
 
+        $restaurants = $restaurantRepository->findall();
+
+        foreach (array_rand($restaurants, $restaurantsShowCarousel) as &$restaurantKey) {
+            $highlightedRestaurants[] = $restaurants[$restaurantKey];
+        }
+
+        return $this->render('index/home.html.twig', [
+            'restaurants' => $restaurants,
+            'highlightedRestaurants' => $highlightedRestaurants,
+        ]);
+    }
 }
