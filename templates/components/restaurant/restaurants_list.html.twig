@@ -1,15 +1,20 @@
 <div class="d-flex flex-wrap justify-content-around">
 	{% for restaurant in restaurants %}
-		<div class="card m-3" style="width: 30%;">
+		<div class="card m-3" style="width: 400px;">
 			<img class="card-img-top" src="{{ restaurant.picture }}" alt="Card image cap">
 			<div class="card-body">
 				<h5 class="card-title">{{ restaurant.name }}</h5>
 				<p class="card-text">{{ restaurant.address }}
 					in
 					{{ restaurant.city }}</p>
-				<p class="card-text">
+				<div class="d-flex justify-content-between align-items-center">
 					<a class="btn btn-primary">more details</a>
-				</p>
+					{% if restaurant.promotion is not empty %}
+						<div class="alert bg-light text-primary m-0" role="alert">
+							in promotion
+						</div>
+					{% endif %}
+				</div>
 			</div>
 		</div>
 	{% endfor %}

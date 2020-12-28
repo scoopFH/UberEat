@@ -4,11 +4,43 @@
 {% endblock %}
 
 {% block body %}
-	{{ include('components/restaurant/carousel.html.twig', { restaurants: highlightedRestaurants }) }}
-	<div class="jumbotron mt-5">
+	<div class="jumbotron mt-5 d-flex flex-column justify-content-center align-items-center">
 		<h1 class="display-4">Ubereat</h1>
 		<p class="lead">
 			here is the list of your favorite restaurants</p>
+		<div class="d-flex justify-content-center align-items-center">
+			<div class="dropdown">
+				<button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+					Order by
+				</button>
+				<div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+					<a class="dropdown-item" href="{{ path('home', {'orderBy': "name"}) }}">Name</a>
+					<a class="dropdown-item" href="{{ path('home', {'orderBy': "promotion"}) }}">Promotion</a>
+				</div>
+			</div>
+
+			<form class="d-flex justify-content-center align-items-center" name="search_restaurant" method="post">
+
+				{{ form_start(form) }}
+
+				<div class="p-2">
+					{{ form_widget(form.name, {'attr': {'placeholder': 'restaurant'}}) }}
+				</div>
+
+				<small>{{ form_help(form.name) }}</small>
+
+				<div class="form-error">
+					{{ form_errors(form.name) }}
+				</div>
+
+				<div class="p-2">
+					<button class="btn btn-primary" type="submit">{{ button_label|default('Search') }}</button>
+				</div>
+				{{ form_end(form) }}
+			</form>
+
+		</div>
 	</div>
 	{{ include('components/restaurant/restaurants_list.html.twig', { restaurants: restaurants }) }}
+	{{ include('components/restaurant/carousel.html.twig', { restaurants: highlightedRestaurants }) }}
 {% endblock %}

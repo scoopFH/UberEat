@@ -11,12 +11,12 @@
 	<div class="carousel-inner">
 		{% for key, restaurant in restaurants %}
 			{% if key == 0 %}
-				<div class="carousel-item active" style="overflow: hidden; height: 50vh;">
-					<img class="d-block w-100" src="{{ restaurant.picture }}" alt="{{ restaurant.name }}">
+				<div class="carousel-item active" style="overflow: hidden;">
+					<img class="d-block w-100" style="object-fit: cover;" src="{{ restaurant.promotion }}" alt="{{ restaurant.name }}">
 				</div>
 			{% else %}
-				<div class="carousel-item" style="overflow: hidden; height: 50vh;">
-					<img class="d-block w-100" src="{{ restaurant.picture }}" alt="{{ restaurant.name }}">
+				<div class="carousel-item" style="overflow: hidden;">
+					<img class="d-block w-100" style="object-fit: cover;" src="{{ restaurant.promotion }}" alt="{{ restaurant.name }}">
 				</div>
 			{% endif %}
 		{% endfor %}

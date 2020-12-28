@@ -22,29 +22,30 @@ class RestaurantRepository extends ServiceEntityRepository
     // /**
     //  * @return Restaurant[] Returns an array of Restaurant objects
     //  */
-    /*
-    public function findByExampleField($value)
-    {
-        return $this->createQueryBuilder('r')
-            ->andWhere('r.exampleField = :val')
-            ->setParameter('val', $value)
-            ->orderBy('r.id', 'ASC')
-            ->setMaxResults(10)
-            ->getQuery()
-            ->getResult()
-        ;
-    }
-    */
 
-    /*
-    public function findOneBySomeField($value): ?Restaurant
+    public function findIfPromotion()
     {
         return $this->createQueryBuilder('r')
-            ->andWhere('r.exampleField = :val')
-            ->setParameter('val', $value)
+            ->andWhere('r.promotion is not NULL')
+            ->andWhere("r.promotion != ''")
             ->getQuery()
-            ->getOneOrNullResult()
-        ;
+            ->getResult();
     }
-    */
+
+    public function restaurantsOrderBy($orderBy, $directionOrder = 'ASC')
+    {
+        return $this->createQueryBuilder('r')
+            ->orderBy('r.' . $orderBy, $directionOrder)
+            ->getQuery()
+            ->getResult();
+    }
+
+    public function search($name, $orderBy, $directionOrder = 'ASC') {
+        return $this->createQueryBuilder('r')
+            ->andWhere('r.name LIKE :name')
+            ->orderBy('r.' . $orderBy, $directionOrder)
+            ->setParameter('name', '%'.$name.'%')
+            ->getQuery()
+            ->execute();
+    }
 }

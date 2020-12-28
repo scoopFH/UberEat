@@ -12,25 +12,50 @@ use App\Form\Register;
 use App\Form\RestaurantCreation;
 use App\Repository\UserRepository;
 use App\Repository\RestaurantRepository;
+use App\Form\SearchRestaurantType;
+
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class IndexController extends AbstractController
 {
     /**
-     * @Route("/", name="home", methods={"GET"})
+     * @Route({"/{orderBy}"}, defaults={"orderBy"="none"}, name="home", methods={"GET", "POST"})
      */
-    public function Home(RestaurantRepository $restaurantRepository): Response
+    public function Home(RestaurantRepository $restaurantRepository, Request $request, string $orderBy): Response
     {
+        $form = $this->createForm(SearchRestaurantType::class);
+        $form->handleRequest($request);
+
         $restaurantsShowCarousel = 3;
 
-        $restaurants = $restaurantRepository->findall();
+        if($orderBy == "name") {
+            $restaurants = $restaurantRepository->restaurantsOrderBy($orderBy);
+        } elseif ($orderBy == "promotion") {
+            $restaurants = $restaurantRepository->restaurantsOrderBy($orderBy, 'DESC');
+        } else {
+            $restaurants = $restaurantRepository->findAll();
+        }
 
-        foreach (array_rand($restaurants, $restaurantsShowCarousel) as &$restaurantKey) {
-            $highlightedRestaurants[] = $restaurants[$restaurantKey];
+        $restaurantsWithPromotions = $restaurantRepository->findIfPromotion();
+
+        foreach (array_rand($restaurantsWithPromotions, $restaurantsShowCarousel) as &$restaurantKey) {
+            $highlightedRestaurants[] = $restaurantsWithPromotions[$restaurantKey];
+        }
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $restaurantName = $form->getData()->getName();
+            if($orderBy == "promotion") {
+                $restaurants = $restaurantRepository->search($restaurantName, $orderBy, 'DESC');
+            }
+            if($orderBy == "name") {
+                $restaurants = $restaurantRepository->search($restaurantName, $orderBy);
+            }
         }
 
         return $this->render('index/home.html.twig', [
             'restaurants' => $restaurants,
             'highlightedRestaurants' => $highlightedRestaurants,
+            'form' => $form->createView(),
         ]);
     }
 }
