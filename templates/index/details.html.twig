@@ -1,0 +1,10 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    {{ dump(restaurants) }}
+    {% for dish in restaurants.dish %}
+    <div class="card-body">
+        <h5 class="card-title"> {{dish.name}} </h5>
+        <h2 class="card-text">{{ dish.price }}</h2>
+    {% endfor %}
+{% endblock %}
