@@ -38,6 +38,8 @@ class IndexController extends AbstractController
 
         $restaurantsWithPromotions = $restaurantRepository->findIfPromotion();
 
+
+        $highlightedRestaurants = [];
         foreach (array_rand($restaurantsWithPromotions, $restaurantsShowCarousel) as &$restaurantKey) {
             $highlightedRestaurants[] = $restaurantsWithPromotions[$restaurantKey];
         }
@@ -58,4 +60,17 @@ class IndexController extends AbstractController
             'form' => $form->createView(),
         ]);
     }
+
+
+    /**
+     * @Route("/restaurant/description/{id}",name="RestaurantDescription", methods={"GET"})
+     */
+    public function RestaurantDescription(Restaurant $restaurant) : Response
+    {
+
+        return $this->render('index/details.html.twig',[
+            'restaurants' => $restaurant
+        ]);
+    }
+
 }
