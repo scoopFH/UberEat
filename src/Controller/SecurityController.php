@@ -13,9 +13,16 @@ use App\Form\Register;
 use App\Form\RestaurantRestorer;
 use App\Repository\UserRepository;
 use App\Repository\RestaurantRepository;
+use Symfony\Component\HttpFoundation\Session\SessionInterface;
 
 class SecurityController extends AbstractController
 {
+    private $session;
+
+    public function __construct(SessionInterface $session)
+    {
+        $this->session = $session;
+    }
 
     /**
      * @Route("/login", name="app_login")
@@ -66,27 +73,22 @@ class SecurityController extends AbstractController
     }
 
     /**
-     * @Route("/register/restorer/{restaurantId}", name="restorer_register", methods={"GET","POST"})
+     * @Route("/register/restorer", name="restorer_register", methods={"GET","POST"})
      */
-    public function registerRestorer(Request $request, int $restaurantId, RestaurantRepository $restaurantrepo): Response
+    public function registerRestorer(Request $request): Response
     {
         $user = new User();
-
-        $restaurant = $restaurantrepo->find($restaurantId);
-
+        $user->setRoles(["ROLE_RESTORER"]);
         $form = $this->createForm(Register::class, $user);
-
-        if ($restaurant->getUsers() == null) {
-            $user->setRestaurant($restaurant);
-        } else {
-            return $this->redirectToRoute('register_user');
-        }
-
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            $restaurant = $this->session->get('myRestaurant', []);
+            $user->setRestaurant($restaurant);
+
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($user);
+            $entityManager->persist($restaurant);
             $entityManager->flush();
 
             return $this->redirectToRoute('app_login');
@@ -108,14 +110,12 @@ class SecurityController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $entityManager = $this->getDoctrine()->getManager();
-            $entityManager->persist($restaurant);
-            $entityManager->flush();
+            $this->session->set('myRestaurant', $restaurant);
 
-            return $this->redirectToRoute('register_restorer', ['restaurantId' => $restaurant->getId()]);
+            return $this->redirectToRoute('restorer_register');
         }
 
-        return $this->render('restaurant/new.html.twig', [
+        return $this->render('security/restaurant/new.html.twig', [
             'restaurant' => $restaurant,
             'form' => $form->createView(),
         ]);

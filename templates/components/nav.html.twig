@@ -28,6 +28,7 @@
 				{% if 'ROLE_USER' in app.user.roles and app.user.roles|length == 1 %}
 					<a class="nav-link" href="{{ path('shopping_index') }}">my order</a>
 				{% endif %}
+				<a class="nav-link" href="{{ path('account_edit') }}">account</a>
 			{% endif %}
 		</ul>
 

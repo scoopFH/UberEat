@@ -47,7 +47,7 @@ class OrderController extends AbstractController
     }
 
     /**
-     * @Route("/admin/show/{id}", name="admin_order_show", methods={"GET"})
+     * @Route("/admin/show/{id}", name="order_show", methods={"GET"})
      */
     public function show(Order $order): Response
     {

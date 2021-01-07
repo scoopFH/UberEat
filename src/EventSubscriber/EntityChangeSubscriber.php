@@ -2,6 +2,7 @@
 
 namespace App\EventSubscriber;
 
+use App\Entity\Order;
 use App\Entity\User;
 use DateTime;
 use Doctrine\Common\EventSubscriber;
@@ -32,6 +33,10 @@ class EntityChangeSubscriber implements EventSubscriber
 
     if ($object instanceof User) {
       $object->setPassword($this->encoder->encodePassword($object,  $object->getPassword()));
+    }
+    
+    if ($object instanceof Order) {
+      $object->setOrderNumber();
     }
   }
 }

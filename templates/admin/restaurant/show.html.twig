@@ -1,42 +1,60 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Restaurant{% endblock %}
+{% block title %}Restaurant
+{% endblock %}
 
 {% block body %}
-    <h1>Restaurant</h1>
+	<h1>Restaurant</h1>
 
-    <table class="table">
-        <tbody>
-            <tr>
-                <th>Id</th>
-                <td>{{ restaurant.id }}</td>
-            </tr>
-            <tr>
-                <th>Name</th>
-                <td>{{ restaurant.name }}</td>
-            </tr>
-            <tr>
-                <th>Picture</th>
-                <td>{{ restaurant.picture }}</td>
-            </tr>
-            <tr>
-                <th>Address</th>
-                <td>{{ restaurant.address }}</td>
-            </tr>
-            <tr>
-                <th>City</th>
-                <td>{{ restaurant.city }}</td>
-            </tr>
-            <tr>
-                <th>Promotion</th>
-                <td>{{ restaurant.promotion }}</td>
-            </tr>
-        </tbody>
-    </table>
+	<table class="table">
+		<tbody>
+			<tr>
+				<th>Id</th>
+				<td>{{ restaurant.id }}</td>
+			</tr>
+			<tr>
+				<th>Name</th>
+				<td>{{ restaurant.name }}</td>
+			</tr>
+			<tr>
+				<th>Picture</th>
+				<td>{{ restaurant.picture }}</td>
+			</tr>
+			<tr>
+				<th>Address</th>
+				<td>{{ restaurant.address }}</td>
+			</tr>
+			<tr>
+				<th>City</th>
+				<td>{{ restaurant.city }}</td>
+			</tr>
+			<tr>
+				<th>Promotion</th>
+				<td>{{ restaurant.promotion }}</td>
+			</tr>
+			<caption class="d-flex flex-column ml-2">
+				<h2 class="text-dark">orders</h2>
+				{% for order in restaurant.orders %}
+					<div class="m-4">
+                        <div><span class="text-dark">id: </span>{{ order.id }}</div>
+                        <div><span class="text-dark">state: </span>{{ order.state }}</div>
+						<div><span class="text-dark">delivery date: </span>{{ order.deliveryDate|date('Y-m-d H:i:s') }}</div>
+						<div><span class="text-dark">name: </span>{{ order.users.firstname }}
+							{{ order.users.firstname }}</div>
+						{% for dish in order.Dish %}
+							<div>
+								<span class="text-dark">dish: </span>{{ dish.name }}
+							</div>
+						{% endfor %}
+					</div>
+				{% endfor %}
+			</caption>
+		</tbody>
+	</table>
 
-    <a href="{{ path('restaurant_index') }}">back to list</a>
+	<a href="{{ path('restaurant_index') }}">back to list</a>
 
-    <a href="{{ path('restaurant_edit', {'id': restaurant.id}) }}">edit</a>
+	<a href="{{ path('restaurant_edit', {'id': restaurant.id}) }}">edit</a>
 
-    {{ include('restaurant/_delete_form.html.twig') }}
+	{{ include('admin/restaurant/_delete_form.html.twig') }}
 {% endblock %}

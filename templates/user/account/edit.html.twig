@@ -1,0 +1,8 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}My profile{% endblock %}
+
+{% block body %}
+    <h1>My profile</h1>
+    {{ include('/user/account/_form.html.twig', {'button_label': 'Update'}) }}
+{% endblock %}

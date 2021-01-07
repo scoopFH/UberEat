@@ -19,7 +19,7 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 class IndexController extends AbstractController
 {
     /**
-     * @Route({"/{orderBy}"}, defaults={"orderBy"="none"}, name="home", methods={"GET", "POST"})
+     * @Route({"/orderBy/{orderBy}", "/"}, defaults={"orderBy"="none"}, name="home", methods={"GET", "POST"})
      */
     public function Home(RestaurantRepository $restaurantRepository, Request $request, string $orderBy): Response
     {
@@ -27,8 +27,9 @@ class IndexController extends AbstractController
         $form->handleRequest($request);
 
         $restaurantsShowCarousel = 3;
+        $orderByList = ["name","promotion"];
 
-        if($orderBy == "name") {
+        if ($orderBy == "name") {
             $restaurants = $restaurantRepository->restaurantsOrderBy($orderBy);
         } elseif ($orderBy == "promotion") {
             $restaurants = $restaurantRepository->restaurantsOrderBy($orderBy, 'DESC');
@@ -38,21 +39,24 @@ class IndexController extends AbstractController
 
         $restaurantsWithPromotions = $restaurantRepository->findIfPromotion();
 
+        $highlightedRestaurants = [];
         foreach (array_rand($restaurantsWithPromotions, $restaurantsShowCarousel) as &$restaurantKey) {
             $highlightedRestaurants[] = $restaurantsWithPromotions[$restaurantKey];
         }
 
         if ($form->isSubmitted() && $form->isValid()) {
             $restaurantName = $form->getData()->getName();
-            if($orderBy == "promotion") {
+            if ($orderBy == "promotion") {
                 $restaurants = $restaurantRepository->search($restaurantName, $orderBy, 'DESC');
             }
-            if($orderBy == "name") {
+            if ($orderBy == "name") {
                 $restaurants = $restaurantRepository->search($restaurantName, $orderBy);
             }
         }
 
         return $this->render('index/home.html.twig', [
+            'orderByList' => $orderByList,
+            'orderBy' => $orderBy,
             'restaurants' => $restaurants,
             'highlightedRestaurants' => $highlightedRestaurants,
             'form' => $form->createView(),

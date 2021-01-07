@@ -10,9 +10,9 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
-use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 
-class Register extends AbstractType
+class UserAccount extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
@@ -23,7 +23,6 @@ class Register extends AbstractType
             ->add('firstname', TextType::class)
             ->add('address', TextType::class)
             ->add('city', TextType::class)
-            ->add("Register", SubmitType::class);
         ;
     }
 

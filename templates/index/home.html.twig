@@ -4,40 +4,71 @@
 {% endblock %}
 
 {% block body %}
+	<style>
+		@media(max-width: 576px) {
+			.search, .buttonSearch {
+				width: 97vw;
+			}
+			.searchContainer {
+				display: flex;
+				flex-direction: column;
+			}
+		}
+		@media(min-width: 577px) {
+			.buttonSearch {
+				width: 150px;
+			}
+			.search {
+				width: 300px;
+			}
+			.searchContainer {
+				display: flex;
+				flex-direction: row;
+			}
+		}
+	</style>
+
 	<div class="jumbotron d-flex flex-column justify-content-center align-items-center">
 		<h1 class="display-4">Ubereat</h1>
 		<p class="lead">
 			here is the list of your favorite restaurants</p>
-		<div class="d-flex justify-content-center align-items-center">
-			<div class="dropdown">
-				<button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-					Order by
-				</button>
-				<div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-					<a class="dropdown-item" href="{{ path('home', {'orderBy': "name"}) }}">Name</a>
-					<a class="dropdown-item" href="{{ path('home', {'orderBy': "promotion"}) }}">Promotion</a>
-				</div>
+		<div class="d-flex justify-content-center align-items-center searchContainer">
+			<select class="form-control form-control-sm buttonSearch" onchange="location = this.value;" aria-label="Default select example">
+				{% if orderBy == "none" %}
+					<option selected>
+						order by
+					</option>
+				{% endif %}
+				{% for order in orderByList %}
+					{% if order == orderBy %}
+						<option selected value="{{ path('home', {'orderBy': order }) }}">
+							{{ order }}
+						</option>
+					{% else %}
+						<option value="{{ path('home', {'orderBy': order }) }}">
+							{{ order }}
+						</option>
+					{% endif %}
+				{% endfor %}
+			</select>
+
+			{{ form_start(form, {'attr': {'class': "d-flex justify-content-center align-items-center searchContainer"}}) }}
+
+			<div class="p-2">
+				{{ form_widget(form.name, {'attr': {'placeholder': 'restaurant', 'class': 'search'}}) }}
 			</div>
 
-			<form class="d-flex justify-content-center align-items-center" name="search_restaurant" method="post">
+			<small>{{ form_help(form.name) }}</small>
 
-				{{ form_start(form) }}
+			<div class="form-error">
+				{{ form_errors(form.name) }}
+			</div>
 
-				<div class="p-2">
-					{{ form_widget(form.name, {'attr': {'placeholder': 'restaurant'}}) }}
-				</div>
+			<div class="p-2">
+				<button class="btn btn-primary buttonSearch" type="submit">{{ button_label|default('Search') }}</button>
+			</div>
+			{{ form_end(form) }}
 
-				<small>{{ form_help(form.name) }}</small>
-
-				<div class="form-error">
-					{{ form_errors(form.name) }}
-				</div>
-
-				<div class="p-2">
-					<button class="btn btn-primary" type="submit">{{ button_label|default('Search') }}</button>
-				</div>
-				{{ form_end(form) }}
-			</form>
 
 		</div>
 	</div>

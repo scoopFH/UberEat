@@ -45,6 +45,11 @@ class Order
      */
     private $state;
 
+    /**
+     * @ORM\Column(type="integer")
+     */
+    private $orderNumber;
+
     public function __construct()
     {
         $this->Dish = new ArrayCollection();
@@ -126,6 +131,18 @@ class Order
             throw new \InvalidArgumentException("Invalid state");
         }
         $this->state = $state;
+        return $this;
+    }
+
+    public function getOrderNumber(): ?int
+    {
+        return $this->orderNumber;
+    }
+
+    public function setOrderNumber(int $orderNumber): self
+    {
+        $this->orderNumber = $orderNumber;
+
         return $this;
     }
 }

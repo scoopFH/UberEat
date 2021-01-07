@@ -1,0 +1,14 @@
+{% block body %}
+	{% apply inline_css %}
+		<style>
+			.dish {
+				border: solid;
+				border-radius: 5px;
+			}
+		</style>
+	<div class="dish">
+		<p class="card-title d-inline">{{ dish.name }}</p>
+		<p class="card-text d-inline">{{ dish.price }}</p>
+	</div>
+	{% endapply %}
+{% endblock %}

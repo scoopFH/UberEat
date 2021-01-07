@@ -1,54 +1,84 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}User{% endblock %}
+{% block title %}User
+{% endblock %}
 
 {% block body %}
-    <h1>User</h1>
+	<h1>User</h1>
 
-    <table class="table">
-        <tbody>
-            <tr>
-                <th>Id</th>
-                <td>{{ user.id }}</td>
-            </tr>
-            <tr>
-                <th>Email</th>
-                <td>{{ user.email }}</td>
-            </tr>
-            <tr>
-                <th>Roles</th>
-                <td>{{ user.roles ? user.roles|json_encode : '' }}</td>
-            </tr>
-            <tr>
-                <th>Password</th>
-                <td>{{ user.password }}</td>
-            </tr>
-            <tr>
-                <th>Lastname</th>
-                <td>{{ user.lastname }}</td>
-            </tr>
-            <tr>
-                <th>Address</th>
-                <td>{{ user.address }}</td>
-            </tr>
-            <tr>
-                <th>City</th>
-                <td>{{ user.city }}</td>
-            </tr>
-            <tr>
-                <th>Firstname</th>
-                <td>{{ user.firstname }}</td>
-            </tr>
-            <tr>
-                <th>Balance</th>
-                <td>{{ user.balance }}</td>
-            </tr>
-        </tbody>
-    </table>
+	<table class="table">
+		<tbody>
+			<tr>
+				<th>Id</th>
+				<td>{{ user.id }}</td>
+			</tr>
+			<tr>
+				<th>Email</th>
+				<td>{{ user.email }}</td>
+			</tr>
+			<tr>
+				<th>Roles</th>
+				<td>{{ user.roles ? user.roles|json_encode : '' }}</td>
+			</tr>
+			<tr>
+				<th>Password</th>
+				<td>{{ user.password }}</td>
+			</tr>
+			<tr>
+				<th>Lastname</th>
+				<td>{{ user.lastname }}</td>
+			</tr>
+			<tr>
+				<th>Address</th>
+				<td>{{ user.address }}</td>
+			</tr>
+			<tr>
+				<th>City</th>
+				<td>{{ user.city }}</td>
+			</tr>
+			<tr>
+				<th>Firstname</th>
+				<td>{{ user.firstname }}</td>
+			</tr>
+			<tr>
+				<th>Balance</th>
+				<td>{{ user.balance }}</td>
+			</tr>
+			<caption class="d-flex flex-column ml-2">
+				<h2 class="text-dark">orders</h2>
+				{% for order in user.orders %}
+					<div class="m-4">
+						<div>
+							<span class="text-dark">id:
+							</span>
+							{{ order.id }}</div>
+						<div>
+							<span class="text-dark">state:
+							</span>
+							{{ order.state }}</div>
+						<div>
+							<span class="text-dark">delivery date:
+							</span>
+							{{ order.deliveryDate|date('Y-m-d H:i:s') }}</div>
+						{% for dish in order.Dish %}
+							<div>
+								<span class="text-dark">dish:
+								</span>
+								{{ dish.name }}
+							</div>
+						{% endfor %}
+                        {% if order == null %}
+                            no order
+                        {% endif %}
+					</div>
+				{% endfor %}
+			</caption>
+		</tbody>
+	</table>
 
-    <a href="{{ path('user_index') }}">back to list</a>
+	<a href="{{ path('user_index') }}">back to list</a>
 
-    <a href="{{ path('user_edit', {'id': user.id}) }}">edit</a>
+	<a href="{{ path('user_edit', {'id': user.id}) }}">edit</a>
 
-    {{ include('admin/user/_delete_form.html.twig') }}
+	{{ include('admin/user/_delete_form.html.twig') }}
 {% endblock %}

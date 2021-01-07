@@ -1,0 +1,16 @@
+{% block body %}
+	{% apply inline_css %}
+
+        <style></style>
+
+        <div>
+            <h1>Ubereat</h1>
+
+            <p>{{ order.deliveryDate|date('Y-m-d H:i:s') }} {{ dump(order) }}</p>
+
+            {% for dish in order.dish %}
+                {{ include('email/restaurant_command.html.twig') }}
+            {% endfor %}
+        </div>
+	{% endapply %}
+{% endblock %}

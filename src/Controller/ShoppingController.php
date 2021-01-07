@@ -2,11 +2,14 @@
 
 namespace App\Controller;
 
+use App\Entity\Order;
 use App\Repository\DishRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
+use Symfony\Component\Mailer\MailerInterface;
+use Symfony\Bridge\Twig\Mime\TemplatedEmail;
 
 class ShoppingController extends AbstractController
 {
@@ -31,7 +34,7 @@ class ShoppingController extends AbstractController
         $shoppingBasketOrganized = [];
 
         foreach ($this->shoppingBasket as $id => $quantity) {
-            if(!is_null($dishRepository->find($id))) {
+            if (!is_null($dishRepository->find($id))) {
                 $shoppingBasketOrganized[] = [
                     'dish' => $dishRepository->find($id),
                     'quantity' => $quantity
@@ -39,7 +42,7 @@ class ShoppingController extends AbstractController
             }
         }
 
-        $total = 0;
+        $total = 2.5;
 
         foreach ($shoppingBasketOrganized as $couple) {
             $total += $couple['dish']->getPrice() * $couple['quantity'];
@@ -81,6 +84,40 @@ class ShoppingController extends AbstractController
         }
 
         $this->session->set('shoppingBasket', $this->shoppingBasket);
+
+        return $this->redirectToRoute('shopping_index');
+    }
+
+    /**
+     * @Route("/shopping/order/buy", name="shopping_order_buy")
+     */
+    public function buyOrder(DishRepository $dishRepository, MailerInterface $mailer): Response
+    {
+        $order = new Order();
+
+        foreach ($this->shoppingBasket as $id => $quantity) {
+            foreach($quantity as &$id) {
+                $order->addDish($dishRepository->find($id));
+            }
+        }
+
+        $user = $this->getUser();
+        $order->setUsers($user);
+
+        $entityManager = $this->getDoctrine()->getManager();
+        $entityManager->persist($order);
+        $entityManager->flush();
+
+        $email = (new TemplatedEmail())
+            ->from('ubereat@gmail.com')
+            ->to('matthiaschometon787@gmail.com')
+            ->subject('Your command')
+            ->htmlTemplate('email/validation_command.html.twig')
+            ->context([
+                'order' => $order,
+            ]);
+
+        $mailer->send($email);
 
         return $this->redirectToRoute('shopping_index');
     }
