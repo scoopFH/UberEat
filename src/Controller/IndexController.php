@@ -39,7 +39,7 @@ class IndexController extends AbstractController
 
         $restaurantsWithPromotions = $restaurantRepository->findIfPromotion();
 
-         $highlightedRestaurants = [];
+        $highlightedRestaurants = [];
         foreach (array_rand($restaurantsWithPromotions, $restaurantsShowCarousel) as &$restaurantKey) {
             $highlightedRestaurants[] = $restaurantsWithPromotions[$restaurantKey];
         }

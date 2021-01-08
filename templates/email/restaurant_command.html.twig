@@ -4,11 +4,12 @@
 			.dish {
 				border: solid;
 				border-radius: 5px;
+				border-width: thin;
 			}
 		</style>
 	<div class="dish">
-		<p class="card-title d-inline">{{ dish.name }}</p>
-		<p class="card-text d-inline">{{ dish.price }}</p>
+		<p class="card-title d-inline">{{ orderDish.quantity }} {{ orderDish.dish.name }}</p>
+		<p class="card-text d-inline">for {{ orderDish.dish.price }}€ individually</p>
 	</div>
 	{% endapply %}
 {% endblock %}

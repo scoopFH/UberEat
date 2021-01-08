@@ -1,14 +1,14 @@
 {% block body %}
 	{% apply inline_css %}
 
-        <style></style>
-
         <div>
             <h1>Ubereat</h1>
+            <p>order number: {{ order.orderNumber }}</p>
+            <p>restaurant: {{ order.restaurant.name }}</p>
+            <p>delivery date: {{ order.deliveryDate|date('Y-m-d H:i:s') }}</p>
+            <p>total price: {{ total }}€</p>
 
-            <p>{{ order.deliveryDate|date('Y-m-d H:i:s') }} {{ dump(order) }}</p>
-
-            {% for dish in order.dish %}
+            {% for orderDish in orderDishes %}
                 {{ include('email/restaurant_command.html.twig') }}
             {% endfor %}
         </div>

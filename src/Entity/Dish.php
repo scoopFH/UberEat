@@ -35,19 +35,18 @@ class Dish
     private $preview;
 
     /**
-     * @ORM\ManyToMany(targetEntity=Restaurant::class, mappedBy="dish")
+     * @ORM\ManyToOne(targetEntity=Restaurant::class, inversedBy="dishes")
      */
-    private $restaurants;
+    private $restaurant;
 
     /**
-     * @ORM\ManyToMany(targetEntity=Order::class, mappedBy="Dish")
+     * @ORM\OneToMany(targetEntity=OrderDish::class, mappedBy="dish")
      */
-    private $orders;
+    private $orderDishes;
 
     public function __construct()
     {
-        $this->restaurants = new ArrayCollection();
-        $this->orders = new ArrayCollection();
+        $this->orderDishes = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -91,55 +90,43 @@ class Dish
         return $this;
     }
 
-    /**
-     * @return Collection|Restaurant[]
-     */
-    public function getRestaurants(): Collection
+    public function getRestaurant(): ?Restaurant
     {
-        return $this->restaurants;
+        return $this->restaurant;
     }
 
-    public function addRestaurant(Restaurant $restaurant): self
+    public function setRestaurant(?Restaurant $restaurant): self
     {
-        if (!$this->restaurants->contains($restaurant)) {
-            $this->restaurants[] = $restaurant;
-            $restaurant->addDish($this);
-        }
-
-        return $this;
-    }
-
-    public function removeRestaurant(Restaurant $restaurant): self
-    {
-        if ($this->restaurants->removeElement($restaurant)) {
-            $restaurant->removeDish($this);
-        }
+        $this->restaurant = $restaurant;
 
         return $this;
     }
 
     /**
-     * @return Collection|Order[]
+     * @return Collection|OrderDish[]
      */
-    public function getOrders(): Collection
+    public function getOrderDishes(): Collection
     {
-        return $this->orders;
+        return $this->orderDishes;
     }
 
-    public function addOrder(Order $order): self
+    public function addOrderDish(OrderDish $orderDish): self
     {
-        if (!$this->orders->contains($order)) {
-            $this->orders[] = $order;
-            $order->addDish($this);
+        if (!$this->orderDishes->contains($orderDish)) {
+            $this->orderDishes[] = $orderDish;
+            $orderDish->setDish($this);
         }
 
         return $this;
     }
 
-    public function removeOrder(Order $order): self
+    public function removeOrderDish(OrderDish $orderDish): self
     {
-        if ($this->orders->removeElement($order)) {
-            $order->removeDish($this);
+        if ($this->orderDishes->removeElement($orderDish)) {
+            // set the owning side to null (unless already changed)
+            if ($orderDish->getDish() === $this) {
+                $orderDish->setDish(null);
+            }
         }
 
         return $this;

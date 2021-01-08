@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Order;
+use App\Entity\OrderDish;
 use App\Repository\DishRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
@@ -94,17 +95,27 @@ class ShoppingController extends AbstractController
     public function buyOrder(DishRepository $dishRepository, MailerInterface $mailer): Response
     {
         $order = new Order();
+        $total = 2.5;
+        $orderDishes = [];
+        $order->setRestaurant($dishRepository->find(array_key_first($this->shoppingBasket))->getRestaurant());
+        $entityManager = $this->getDoctrine()->getManager();
 
         foreach ($this->shoppingBasket as $id => $quantity) {
-            foreach($quantity as &$id) {
-                $order->addDish($dishRepository->find($id));
+            $orderDish = new OrderDish();
+            $orderDish->setDish($dishRepository->find($id));
+            $orderDish->setOrders($order);
+            $orderDish->setQuantity($quantity);
+            $orderDishes[] = $orderDish;
+            $entityManager->persist($orderDish);
+
+            for ($i = 0; $i < $quantity; $i++) {
+                $total += $dishRepository->find($id)->getPrice();
             }
         }
 
         $user = $this->getUser();
         $order->setUsers($user);
 
-        $entityManager = $this->getDoctrine()->getManager();
         $entityManager->persist($order);
         $entityManager->flush();
 
@@ -115,6 +126,8 @@ class ShoppingController extends AbstractController
             ->htmlTemplate('email/validation_command.html.twig')
             ->context([
                 'order' => $order,
+                'orderDishes' => $orderDishes,
+                'total' => $total,
             ]);
 
         $mailer->send($email);

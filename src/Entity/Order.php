@@ -36,11 +36,6 @@ class Order
     private $users;
 
     /**
-     * @ORM\ManyToMany(targetEntity=Dish::class, inversedBy="orders")
-     */
-    private $Dish;
-
-    /**
      * @ORM\Column(type="string", length=255, columnDefinition="ENUM('delivered', 'in delivering', 'in preparation')") )
      */
     private $state;
@@ -50,9 +45,14 @@ class Order
      */
     private $orderNumber;
 
+    /**
+     * @ORM\OneToMany(targetEntity=OrderDish::class, mappedBy="orders")
+     */
+    private $orderDishes;
+
     public function __construct()
     {
-        $this->Dish = new ArrayCollection();
+        $this->orderDishes = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -92,7 +92,6 @@ class Order
     public function setUsers(?User $users): self
     {
         $this->users = $users;
-
         return $this;
     }
 
@@ -142,6 +141,36 @@ class Order
     public function setOrderNumber(int $orderNumber): self
     {
         $this->orderNumber = $orderNumber;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|OrderDish[]
+     */
+    public function getOrderDishes(): Collection
+    {
+        return $this->orderDishes;
+    }
+
+    public function addOrderDish(OrderDish $orderDish): self
+    {
+        if (!$this->orderDishes->contains($orderDish)) {
+            $this->orderDishes[] = $orderDish;
+            $orderDish->setOrders($this);
+        }
+
+        return $this;
+    }
+
+    public function removeOrderDish(OrderDish $orderDish): self
+    {
+        if ($this->orderDishes->removeElement($orderDish)) {
+            // set the owning side to null (unless already changed)
+            if ($orderDish->getOrders() === $this) {
+                $orderDish->setOrders(null);
+            }
+        }
 
         return $this;
     }

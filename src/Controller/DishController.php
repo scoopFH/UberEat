@@ -165,7 +165,7 @@ class DishController extends AbstractController
     {
         $restaurant = $this->getUser()->getRestaurant();
         $dish = new Dish();
-        $dish->addRestaurant($restaurant);
+        $dish->setRestaurant($restaurant);
 
         $form = $this->createForm(DishType::class, $dish);
         $form->handleRequest($request);
