@@ -20,8 +20,8 @@
 				<tr>
 					<td>{{ order.deliveryDate ? order.deliveryDate|date('Y-m-d H:i:s') : '' }}</td>
 					<td>
-						{% for dish in order.dish %}
-							<p>{{ dish.name }}</p>
+						{% for orderDish in order.orderDishes %}
+							{{ orderDish.quantity }} {{ orderDish.dish.name }} <p></p>
 						{% endfor %}
 					</td>
                     <td>{{ order.state }}</td>

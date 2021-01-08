@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\Order;
 use App\Form\OrderType;
 use App\Form\OrderRestorer;
+use App\Repository\OrderDishRepository;
 use App\Repository\OrderRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -93,7 +94,7 @@ class OrderController extends AbstractController
     /**
      * @Route("/restorer/order", name="restorer_order_index", methods={"GET"})
      */
-    public function showRestorerOrders(): Response
+    public function showRestorerOrders(OrderDishRepository $orderDishRepository): Response
     {
         $orders = $this->getUser()->getRestaurant()->getOrders();
         return $this->render('restorer/order/index.html.twig', [

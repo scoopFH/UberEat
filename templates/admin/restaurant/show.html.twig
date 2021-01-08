@@ -36,14 +36,29 @@
 				<h2 class="text-dark">orders</h2>
 				{% for order in restaurant.orders %}
 					<div class="m-4">
-                        <div><span class="text-dark">id: </span>{{ order.id }}</div>
-                        <div><span class="text-dark">state: </span>{{ order.state }}</div>
-						<div><span class="text-dark">delivery date: </span>{{ order.deliveryDate|date('Y-m-d H:i:s') }}</div>
-						<div><span class="text-dark">name: </span>{{ order.users.firstname }}
+						<div>
+							<span class="text-dark">id:
+							</span>
+							{{ order.id }}</div>
+						<div>
+							<span class="text-dark">state:
+							</span>
+							{{ order.state }}</div>
+						<div>
+							<span class="text-dark">delivery date:
+							</span>
+							{{ order.deliveryDate|date('Y-m-d H:i:s') }}</div>
+						<div>
+							<span class="text-dark">name:
+							</span>
+							{{ order.users.firstname }}
 							{{ order.users.firstname }}</div>
-						{% for dish in order.Dish %}
+						<span class="text-dark">dishes:
+						</span>
+						{% for orderDish in order.orderDishes %}
 							<div>
-								<span class="text-dark">dish: </span>{{ dish.name }}
+								{{ orderDish.quantity }}
+								{{ orderDish.dish.name }}
 							</div>
 						{% endfor %}
 					</div>

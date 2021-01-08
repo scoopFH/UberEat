@@ -24,7 +24,7 @@ class RestaurantType extends AbstractType
             ->add('promotion', TextType::class, [
                 'label' => 'promotion picture url'
             ])
-            ->add('dish', EntityType::class, [
+            ->add('dishes', EntityType::class, [
                 'class' => Dish::class,
                 'choice_label' => 'name',
                 'expanded' => true,
