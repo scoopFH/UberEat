@@ -94,11 +94,12 @@ class ShoppingController extends AbstractController
      */
     public function buyOrder(DishRepository $dishRepository, MailerInterface $mailer): Response
     {
+        $entityManager = $this->getDoctrine()->getManager();
         $order = new Order();
         $total = 2.5;
         $orderDishes = [];
-        $order->setRestaurant($dishRepository->find(array_key_first($this->shoppingBasket))->getRestaurant());
-        $entityManager = $this->getDoctrine()->getManager();
+        $restaurant = $dishRepository->find(array_key_first($this->shoppingBasket))->getRestaurant();
+        $order->setRestaurant($restaurant);
 
         foreach ($this->shoppingBasket as $id => $quantity) {
             $orderDish = new OrderDish();
@@ -107,7 +108,6 @@ class ShoppingController extends AbstractController
             $orderDish->setQuantity($quantity);
             $orderDishes[] = $orderDish;
             $entityManager->persist($orderDish);
-
             for ($i = 0; $i < $quantity; $i++) {
                 $total += $dishRepository->find($id)->getPrice();
             }
@@ -119,19 +119,37 @@ class ShoppingController extends AbstractController
         $entityManager->persist($order);
         $entityManager->flush();
 
+        $restorerMail = $restaurant->getUsers()->getEmail();
+
         $email = (new TemplatedEmail())
             ->from('ubereat@gmail.com')
-            ->to('matthiaschometon787@gmail.com')
+            ->to($user->getEmail())
             ->subject('Your command')
             ->htmlTemplate('email/validation_command.html.twig')
             ->context([
                 'order' => $order,
                 'orderDishes' => $orderDishes,
                 'total' => $total,
+                'user' => $user,
             ]);
 
         $mailer->send($email);
 
+        $email = (new TemplatedEmail())
+            ->from('ubereat@gmail.com')
+            ->to($restorerMail)
+            ->subject('command of '.$user->getFirstname().' '.$user->getLastname())
+            ->htmlTemplate('email/validation_command.html.twig')
+            ->context([
+                'order' => $order,
+                'orderDishes' => $orderDishes,
+                'total' => $total,
+                'user' => $user,
+            ]);
+
+        $mailer->send($email);
+
+        $this->session->remove('shoppingBasket');
         return $this->redirectToRoute('shopping_index');
     }
 }
