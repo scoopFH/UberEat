@@ -9,7 +9,6 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
 use App\Entity\User;
 use App\Form\Register;
-use App\Form\RestaurantCreation;
 use App\Repository\UserRepository;
 use App\Repository\RestaurantRepository;
 use App\Form\SearchRestaurantType;

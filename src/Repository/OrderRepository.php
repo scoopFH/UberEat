@@ -4,6 +4,8 @@ namespace App\Repository;
 
 use App\Entity\Order;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\NonUniqueResultException;
+use Doctrine\ORM\NoResultException;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
@@ -47,4 +49,32 @@ class OrderRepository extends ServiceEntityRepository
         ;
     }
     */
+
+    public function getOrderPassed(){
+        try {
+            return $this->createQueryBuilder('o')
+                ->select("COUNT(o.state)")
+                ->andWhere("o.state = 'delivered'")
+                ->getQuery()
+                ->getSingleScalarResult();
+        } catch (NoResultException $e){
+            throw $e;
+        } catch (NonUniqueResultException $e){
+            throw $e;
+        }
+    }
+
+    public function getOrderInProgress(){
+        try {
+            return $this->createQueryBuilder('o')
+                ->select("COUNT(o.state)")
+                ->andWhere("o.state = 'delivered'")
+                ->getQuery()
+                ->getSingleScalarResult();
+        } catch (NoResultException $e){
+            throw $e;
+        } catch (NonUniqueResultException $e){
+            throw $e;
+        }
+    }
 }

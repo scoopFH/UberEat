@@ -4,6 +4,8 @@ namespace App\Repository;
 
 use App\Entity\Restaurant;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\NonUniqueResultException;
+use Doctrine\ORM\NoResultException;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
@@ -47,5 +49,18 @@ class RestaurantRepository extends ServiceEntityRepository
             ->setParameter('name', '%'.$name.'%')
             ->getQuery()
             ->execute();
+    }
+
+    public function getTotal(){
+        try {
+            return $this->createQueryBuilder('r')
+                ->select('COUNT(r.name) as totalResto')
+                ->getQuery()
+                ->getSingleScalarResult();
+        } catch (NoResultException $e) {
+            throw $e;
+        } catch (NonUniqueResultException $e) {
+            throw $e;
+        }
     }
 }

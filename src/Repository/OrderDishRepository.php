@@ -2,8 +2,13 @@
 
 namespace App\Repository;
 
+use App\Entity\Dish;
+use App\Entity\Order;
 use App\Entity\OrderDish;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\NonUniqueResultException;
+use Doctrine\ORM\NoResultException;
+use Doctrine\ORM\Query\Expr\Join;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
@@ -47,4 +52,21 @@ class OrderDishRepository extends ServiceEntityRepository
         ;
     }
     */
+
+    public function getTotalIncome(){
+        try {
+            return $this->createQueryBuilder('odr')
+                ->select('odr.dish_id','odr.orders_id','odr.quantity')
+                ->from(Order::class,"od")
+                ->innerJoin(Dish::class, "d",Join::WITH,"od.dish_id = d.id")
+                ->getQuery()
+                ->getSingleScalarResult();
+        } catch (NoResultException $e){
+            throw $e;
+        } catch (NonUniqueResultException $e){
+            throw $e;
+        }
+
+    }
+
 }
