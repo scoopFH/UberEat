@@ -23,7 +23,7 @@ class ShoppingController extends AbstractController
         if (!is_null($this->session->get('shoppingBasket', []))) {
             $this->shoppingBasket = $this->session->get('shoppingBasket', []);
         } else {
-            $this->shoppingBasket = "";
+            $this->shoppingBasket = [];
         }
     }
 
@@ -51,8 +51,7 @@ class ShoppingController extends AbstractController
 
         return $this->render('user/shopping/index.html.twig', [
             "items" => $shoppingBasketOrganized,
-            "total" => $total,
-            "test" => $this->shoppingBasket
+            "total" => $total
         ]);
     }
 
@@ -61,9 +60,12 @@ class ShoppingController extends AbstractController
      */
     public function add($id, DishRepository $dishRepository): Response
     {
-
-        if ($this->shoppingBasket != [] && $dishRepository->find(array_key_first($this->shoppingBasket))->getRestaurant() != $dishRepository->find($id)->getRestaurant()) {
-            return $this->redirectToRoute('shopping_index');
+        if(!is_null($this->shoppingBasket) || !empty($this->shoppingBasket)) {
+            foreach($this->shoppingBasket as $idDish => $quantity) {
+                if($dishRepository->find($idDish)->getRestaurant() != $dishRepository->find($id)->getRestaurant()) {
+                    return $this->redirectToRoute('shopping_index');
+                }
+            }
         }
 
         if (empty($this->shoppingBasket[$id])) {
