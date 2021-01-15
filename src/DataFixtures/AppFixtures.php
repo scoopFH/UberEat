@@ -66,6 +66,17 @@ class AppFixtures extends Fixture
             {"name":"Boxmaster","preview":"https://cn-geo1.uber.com/image-proc/resize/eats/format=webp/width=550/height=440/quality=70/srcb64=aHR0cHM6Ly9kMXJhbHNvZ25qbmczNy5jbG91ZGZyb250Lm5ldC8yZWZlYzUzZi00YWYwLTRiOWQtOWVhNS03YjAyNDQ5Mzg1YzcuanBlZw=="}
             ]
         }
+        {
+            "name":"L\'Art en Burger",
+            "picture":"https://d1ralsognjng37.cloudfront.net/2d7f9781-2d02-4602-82e1-d9d4d3d6938b.jpeg",
+            "promotion":"",
+            "dishes":[{"name": "Barry","preview":"https://d1ralsognjng37.cloudfront.net/5b6847ad-5c3f-46f0-bfd7-234fc1ed211c.jpeg"},
+            {"name":"Le Jean Claude Dusse","preview":"https://d1ralsognjng37.cloudfront.net/243239c6-b7f7-4efd-b480-5532951ac883.jpeg"},
+            {"name":"Seguin","preview":"https://d1ralsognjng37.cloudfront.net/81d4a0af-669d-4537-a6a2-ee96710bedce.jpeg"},
+            {"name":"Charlie","preview":"https://d1ralsognjng37.cloudfront.net/70b8c733-d7b0-4ca2-8061-995c4bef8348.jpeg"},
+            {"name":"Louis","preview":"https://d1ralsognjng37.cloudfront.net/ab045242-68b7-4d7c-b15f-811c07a7d714.jpeg"}
+            ]
+        },
         ]
 }');
 

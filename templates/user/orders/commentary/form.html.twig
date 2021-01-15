@@ -6,7 +6,7 @@
 {% endblock %}
 
 {% block body %}
-	{% if commentary == null %}
+	{% if commentary is not defined %}
 		<h1>Add commentary</h1>
 		{{ form_start(form) }}
 		{{ form_widget(form) }}
