@@ -24,7 +24,7 @@ class AppFixtures extends Fixture
         for ($i = 0; $i < 25; $i++) {
             $dish = new Dish();
             $dish
-                ->setName($faker->sentence(2))
+                ->setName($faker->foodName())
                 ->setprice($faker->numberBetween(1, 16))
                 ->setpreview($faker->imageUrl());
             $manager->persist($dish);

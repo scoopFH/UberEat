@@ -1,6 +1,7 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}my order
+{% block title %}
+	{{parent()}}My order
 {% endblock %}
 
 {% block body %}
@@ -65,6 +66,11 @@
 				</tr>
 			</tfoot>
 		</table>
+		<div class="d-flex justify-content-end">
+			<a href="{{ path('shopping_order_buy')}}" class="btn btn-primary btn-lg" style="margin-right: 26%;">
+				pass order
+			</a>
+		</div>
 	{% else %}
 		<p>there is no dishes in your order</p>
 	{% endif %}

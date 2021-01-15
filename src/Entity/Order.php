@@ -50,6 +50,11 @@ class Order
      */
     private $orderDishes;
 
+    /**
+     * @ORM\OneToOne(targetEntity=Commentary::class, mappedBy="orderDishes", cascade={"persist", "remove"})
+     */
+    private $commentary;
+
     public function __construct()
     {
         $this->orderDishes = new ArrayCollection();
@@ -171,6 +176,28 @@ class Order
                 $orderDish->setOrders(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getCommentary(): ?Commentary
+    {
+        return $this->commentary;
+    }
+
+    public function setCommentary(?Commentary $commentary): self
+    {
+        // unset the owning side of the relation if necessary
+        if ($commentary === null && $this->commentary !== null) {
+            $this->commentary->setOrderDishes(null);
+        }
+
+        // set the owning side of the relation if necessary
+        if ($commentary !== null && $commentary->getOrderDishes() !== $this) {
+            $commentary->setOrderDishes($this);
+        }
+
+        $this->commentary = $commentary;
 
         return $this;
     }

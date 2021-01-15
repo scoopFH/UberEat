@@ -4,6 +4,7 @@
         <div>
             <h1>Ubereat</h1>
             <p>to {{ user.firstname }} {{ user.lastname }}</p>
+            <p>delivery address: {{ user.address }}</p>
             <p>order number: {{ order.orderNumber }}</p>
             <p>restaurant: {{ order.restaurant.name }}</p>
             <p>delivery date: {{ order.deliveryDate|date('Y-m-d H:i:s') }}</p>
