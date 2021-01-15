@@ -51,15 +51,21 @@ class ShoppingController extends AbstractController
 
         return $this->render('user/shopping/index.html.twig', [
             "items" => $shoppingBasketOrganized,
-            "total" => $total
+            "total" => $total,
+            "test" => $this->shoppingBasket
         ]);
     }
 
     /**
      * @Route("/shopping/add/{id}", name="shopping_add")
      */
-    public function add($id): Response
+    public function add($id, DishRepository $dishRepository): Response
     {
+
+        if ($this->shoppingBasket != [] && $dishRepository->find(array_key_first($this->shoppingBasket))->getRestaurant() != $dishRepository->find($id)->getRestaurant()) {
+            return $this->redirectToRoute('shopping_index');
+        }
+
         if (empty($this->shoppingBasket[$id])) {
             $this->shoppingBasket[$id] = 0;
         }
@@ -94,14 +100,14 @@ class ShoppingController extends AbstractController
      */
     public function buyOrder(DishRepository $dishRepository, MailerInterface $mailer): Response
     {
-        if($this->shoppingBasket != "") {
+        if ($this->shoppingBasket != "") {
             $entityManager = $this->getDoctrine()->getManager();
             $order = new Order();
             $total = 2.5;
             $orderDishes = [];
             $restaurant = $dishRepository->find(array_key_first($this->shoppingBasket))->getRestaurant();
             $order->setRestaurant($restaurant);
-    
+
             foreach ($this->shoppingBasket as $id => $quantity) {
                 $orderDish = new OrderDish();
                 $orderDish->setDish($dishRepository->find($id));
@@ -113,15 +119,15 @@ class ShoppingController extends AbstractController
                     $total += $dishRepository->find($id)->getPrice();
                 }
             }
-    
+
             $user = $this->getUser();
             $order->setUsers($user);
-    
+
             $entityManager->persist($order);
             $entityManager->flush();
-    
+
             $restorerMail = $restaurant->getUsers()->getEmail();
-    
+
             $email = (new TemplatedEmail())
                 ->from('ubereat@gmail.com')
                 ->to($user->getEmail())
@@ -133,13 +139,13 @@ class ShoppingController extends AbstractController
                     'total' => $total,
                     'user' => $user,
                 ]);
-    
+
             $mailer->send($email);
-    
+
             $email = (new TemplatedEmail())
                 ->from('ubereat@gmail.com')
                 ->to($restorerMail)
-                ->subject('command of '.$user->getFirstname().' '.$user->getLastname())
+                ->subject('command of ' . $user->getFirstname() . ' ' . $user->getLastname())
                 ->htmlTemplate('email/validation_command.html.twig')
                 ->context([
                     'order' => $order,
@@ -147,9 +153,9 @@ class ShoppingController extends AbstractController
                     'total' => $total,
                     'user' => $user,
                 ]);
-    
+
             $mailer->send($email);
-    
+
             $this->session->remove('shoppingBasket');
             return $this->redirectToRoute('shopping_index');
         }
