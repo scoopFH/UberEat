@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Order
+{% block title %}{{parent()}}Order
 {% endblock %}
 
 {% block body %}
@@ -17,13 +17,23 @@
 				<td>{{ order.deliveryDate ? order.deliveryDate|date('Y-m-d H:i:s') : '' }}</td>
 			</tr>
 			<tr>
-                <th>Dishes</th>
+				<th>Order commentary</th>
+				<caption class="d-flex flex-column" style="margin-left: 10%;">
+					<p>message : {{ order.commentary.message }}
+					</p>
+					<p>send the {{ order.commentary.sendDate ? order.deliveryDate|date('Y-m-d H:i:s') : '' }}
+					</p>
+				</caption>
+			</tr>
+			<tr>
+				<th>Dishes</th>
+				<td></td>
 				{% for orderDish in order.orderDishes %}
-                <td>
-					{{ orderDish.quantity }}
-					{{ orderDish.dish.name }}
-					<p></p>
-                </td>
+					<td>
+						{{ orderDish.quantity }}
+						{{ orderDish.dish.name }}
+						<p></p>
+					</td>
 				{% endfor %}
 			</tr>
 		</tbody>

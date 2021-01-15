@@ -5,11 +5,15 @@
 				border: solid;
 				border-radius: 5px;
 				border-width: thin;
+				margin: 8px;
+			}
+			.dishDescription {
+				margin-left: 8px;
 			}
 		</style>
 	<div class="dish">
-		<p class="card-title d-inline">{{ orderDish.quantity }} {{ orderDish.dish.name }}</p>
-		<p class="card-text d-inline">for {{ orderDish.dish.price }}€ individually</p>
+		<p class="dishDescription">{{ orderDish.quantity }} {{ orderDish.dish.name }}</p>
+		<p class="dishDescription">for {{ orderDish.dish.price }}€ individually</p>
 	</div>
 	{% endapply %}
 {% endblock %}

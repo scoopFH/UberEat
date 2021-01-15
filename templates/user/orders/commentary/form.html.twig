@@ -1,0 +1,26 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+	{{ parent() }}
+	commentary
+{% endblock %}
+
+{% block body %}
+	{% if commentary is not defined %}
+		<h1>Add commentary</h1>
+		{{ form_start(form) }}
+		{{ form_widget(form) }}
+		<button class="btn">{{ button_label|default('Send') }}</button>
+		{{ form_end(form) }}
+	{% else %}
+		<div class="jumbotron">
+			<h1 class="display-4">you have already commented on this dish</h1>
+			<p class="lead">at {{ commentary.sendDate ? commentary.sendDate|date('Y-m-d H:i:s') : '' }} you have wrote :</p>
+			<hr class="my-4">
+			<p>" {{ commentary.message }} "</p>
+			<p class="lead">
+				<a class="btn btn-primary btn-lg" href="{{ path('user_orders') }}" role="button">return to your orders</a>
+			</p>
+		</div>
+	{% endif %}
+{% endblock %}

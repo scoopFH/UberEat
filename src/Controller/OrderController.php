@@ -94,7 +94,7 @@ class OrderController extends AbstractController
     /**
      * @Route("/restorer/order", name="restorer_order_index", methods={"GET"})
      */
-    public function showRestorerOrders(OrderDishRepository $orderDishRepository): Response
+    public function showRestorerOrders(): Response
     {
         $orders = $this->getUser()->getRestaurant()->getOrders();
         return $this->render('restorer/order/index.html.twig', [
@@ -133,5 +133,21 @@ class OrderController extends AbstractController
         }
 
         return $this->redirectToRoute('restorer_order_index');
+    }
+
+    /**
+     * @Route("/orders", name="user_orders", methods={"GET","POST"})
+     */
+    public function showOrders(OrderRepository $orderRepo): Response
+    {
+        if($this->getUser() != null) {
+            $orders = $orderRepo->findOrderwithStatus('delivered');
+        } else {
+            return $this->redirectToRoute('home');
+        }
+
+        return $this->render('user/orders/index.html.twig', [
+            'orders' => $orders,
+        ]);
     }
 }

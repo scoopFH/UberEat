@@ -1,6 +1,7 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}my order
+{% block title %}
+	{{parent()}}My order
 {% endblock %}
 
 {% block body %}
@@ -52,7 +53,7 @@
 					<th colspan="4" class="text-right text-muted">
 						service :
 					</th>
-					<th class="text-muted">+ 2,5€</th>
+					<th class="text-muted">+ 2.5€</th>
 					<th></th>
 				</tr>
 				<tr>
@@ -65,7 +66,13 @@
 				</tr>
 			</tfoot>
 		</table>
+		<div class="d-flex justify-content-end">
+			<a href="{{ path('shopping_order_buy')}}" class="btn btn-primary btn-lg" style="margin-right: 26%;">
+				pass order
+			</a>
+		</div>
 	{% else %}
+
 		<p>there is no dishes in your order</p>
 	{% endif %}
 {% endblock %}

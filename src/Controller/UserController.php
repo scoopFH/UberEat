@@ -110,4 +110,25 @@ class UserController extends AbstractController
             'form' => $form->createView(),
         ]);
     }
+
+    /**
+     * @Route("/account", name="account_edit", methods={"GET","POST"})
+     */
+    public function showOrders(Request $request): Response
+    {
+        $user = $this->getUser();
+        $form = $this->createForm(UserAccount::class, $user);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $this->getDoctrine()->getManager()->flush();
+
+            return $this->redirectToRoute('account_edit');
+        }
+
+        return $this->render('user/account/edit.html.twig', [
+            'user' => $user,
+            'form' => $form->createView(),
+        ]);
+    }
 }

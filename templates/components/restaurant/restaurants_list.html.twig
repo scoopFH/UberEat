@@ -1,7 +1,9 @@
 <div class="d-flex flex-wrap justify-content-around">
 	{% for restaurant in restaurants %}
 		<div class="card m-3" style="width: 400px;">
-			<img class="card-img-top" src="{{ restaurant.picture }}" alt="Card image cap">
+			<div style="height: 250px; overflow: hidden;">
+			<img class="card-img-top" src="{{ restaurant.picture }}" alt="{{ restaurant.name }}">
+			</div>
 			<div class="card-body">
 				<h5 class="card-title">{{ restaurant.name }}</h5>
 				<p class="card-text">{{ restaurant.address }}

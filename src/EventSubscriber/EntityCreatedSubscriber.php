@@ -2,6 +2,7 @@
 
 namespace App\EventSubscriber;
 
+use App\Entity\Commentary;
 use App\Entity\User;
 use DateTime;
 use Doctrine\Common\EventSubscriber;
@@ -37,6 +38,10 @@ class EntityCreatedSubscriber implements EventSubscriber
       $object->setOrderNumber(rand(0,2147483647));
       $object->setDeliveryDate(new DateTime('NOW'));
       $object->setState('in preparation');
+    }
+
+    if ($object instanceof Commentary) {
+      $object->setSendDate(new DateTime('NOW'));
     }
   }
 }

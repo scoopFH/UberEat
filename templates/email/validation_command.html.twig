@@ -1,17 +1,58 @@
 {% block body %}
 	{% apply inline_css %}
+	<style>
+        .text {
+            font-size: 1.2em;
+        }
+		.ubereatWallpaperContainer {
+			height: 400px;
+			overflow: hidden;
+			object-fit: cover;
+			display: flex;
+		}
+		.ubereatWallpaper {
+			object-fit: cover;
+			width: 100%;
+		}
+		.presentationText {
+			color: #798291;
+			font-style: italic;
+		}
+        .userPresentation{
+            font-weight: bold;
+        }
+	</style>
 
-        <div>
-            <h1>Ubereat</h1>
-            <p>to {{ user.firstname }} {{ user.lastname }}</p>
-            <p>order number: {{ order.orderNumber }}</p>
-            <p>restaurant: {{ order.restaurant.name }}</p>
-            <p>delivery date: {{ order.deliveryDate|date('Y-m-d H:i:s') }}</p>
-            <p>total price: {{ total }}€</p>
+	<div class="text">
+		<div class="ubereatWallpaperContainer">
+			<img class="ubereatWallpaper" src="https://www.retaildetail.be/sites/default/files/news/UberEats.png">
+		</div>
+		<h1>Ubereat</h1>
+		<p class="font-weight-light">to
+			<span class="userPresentation">
+				{{ user.firstname }}
+				{{ user.lastname }}
+			</span>
+		</p>
+		<p>
+			<span class="presentationText">delivery address:</span>
+			{{ user.address }}</p>
+		<p>
+			<span class="presentationText">order number:</span>
+			{{ order.orderNumber }}</p>
+		<p>
+			<span class="presentationText">restaurant:</span>
+			{{ order.restaurant.name }}</p>
+		<p>
+			<span class="presentationText">delivery date:</span>
+			{{ order.deliveryDate|date('Y-m-d H:i:s') }}</p>
+		<p>
+			<span class="presentationText">total price:</span>
+			{{ total }}€</p>
 
-            {% for orderDish in orderDishes %}
-                {{ include('email/restaurant_command.html.twig') }}
-            {% endfor %}
-        </div>
+		{% for orderDish in orderDishes %}
+			{{ include('email/restaurant_command.html.twig') }}
+		{% endfor %}
+	</div>
 	{% endapply %}
 {% endblock %}

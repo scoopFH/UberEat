@@ -1,17 +1,17 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}{{parent()}}Orders
+{% block title %}{{parent()}}Order index
 {% endblock %}
 
 {% block body %}
-	<h1>Orders</h1>
+	<h1>Order index</h1>
 
 	<table class="table">
 		<thead>
 			<tr>
-				<th>Delivery date</th>
+				<th>Delivery_date</th>
 				<th>Dishes</th>
-                <th>State</th>
+				<th>State</th>
 				<th>actions</th>
 			</tr>
 		</thead>
@@ -21,12 +21,14 @@
 					<td>{{ order.deliveryDate ? order.deliveryDate|date('Y-m-d H:i:s') : '' }}</td>
 					<td>
 						{% for orderDish in order.orderDishes %}
-							{{ orderDish.quantity }} {{ orderDish.dish.name }} <p></p>
+							{{ orderDish.quantity }}
+							{{ orderDish.dish.name }}
+							<p></p>
 						{% endfor %}
 					</td>
-                    <td>{{ order.state }}</td>
+					<td>{{ order.state }}</td>
 					<td>
-						<a href="{{ path('restorer_order_edit', {'id': order.id}) }}">edit</a>
+						<a href="{{ path('order_comment', {'id': order.id}) }}">add commentary</a>
 					</td>
 				</tr>
 			{% else %}
