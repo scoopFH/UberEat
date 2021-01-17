@@ -64,11 +64,10 @@ class IndexController extends AbstractController
 
 
     /**
-     * @Route("/restaurant/description/{id}",name="RestaurantDescription", methods={"GET"})
+     * @Route("/restaurant/description/{id}",name="restaurant_description", methods={"GET"})
      */
     public function RestaurantDescription(Restaurant $restaurant) : Response
     {
-
         return $this->render('index/details.html.twig',[
             'restaurants' => $restaurant
         ]);

@@ -1,8 +1,6 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
-    {{ dump(restaurants) }}
-
     <div class="col-md-5 p-lg-5 mx-auto my-5">
         <img src="{{ restaurants.picture }}">
         <h1 class="display-4 fw-normal">{{ restaurants.name }}</h1>

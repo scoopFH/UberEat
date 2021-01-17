@@ -20,6 +20,7 @@
 					<a class="nav-link" href="{{ path('restorer_dish_index') }}">dishes</a>
 				{% endif %}
 				{% if 'ROLE_ADMIN' in app.user.roles %}
+					<a class="nav-link" href="{{ path('admin_stat') }}">stats</a>
 					<a class="nav-link" href="{{ path('user_index') }}">users</a>
 					<a class="nav-link" href="{{ path('restaurant_index') }}">restaurants</a>
 					<a class="nav-link" href="{{ path('order_index') }}">orders</a>

@@ -12,16 +12,13 @@ use Symfony\Component\Routing\Annotation\Route;
 class StatController extends AbstractController
 {
     /**
-     * @Route("/admin/stat", name="stat")
+     * @Route("/admin/stat", name="admin_stat")
      */
     public function index(RestaurantRepository $restaurantRepository,OrderRepository $orderRepository): Response
     {
         $nbreResaurant = $restaurantRepository->getTotal();
         $getOrderPassed = $orderRepository->getOrderPassed();
         $getOrderInProgress = $orderRepository->getOrderInProgress();
-
-
-
 
         return $this->render('stat/index.html.twig', [
             'nbreRestaurants' => $nbreResaurant,

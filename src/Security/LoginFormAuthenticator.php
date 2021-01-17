@@ -98,7 +98,7 @@ class LoginFormAuthenticator extends AbstractFormLoginAuthenticator implements P
         $user = $this->security->getUser();
 
         if(in_array("ROLE_ADMIN", $user->getRoles())) {
-            return new RedirectResponse('/admin/user');
+            return new RedirectResponse('/admin/stat');
         }
 
         if(in_array("ROLE_RESTORER", $user->getRoles())) {

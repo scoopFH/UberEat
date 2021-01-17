@@ -10,7 +10,7 @@
 					in
 					{{ restaurant.city }}</p>
 				<div class="d-flex justify-content-between align-items-center">
-					<a class="btn btn-primary">more details</a>
+					<a href="{{ path('restaurant_description', {'id': restaurant.id}) }}" class="btn btn-primary">more details</a>
 					{% if restaurant.promotion is not empty %}
 						<div class="alert bg-light text-primary m-0" role="alert">
 							in promotion
