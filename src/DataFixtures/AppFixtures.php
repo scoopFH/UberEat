@@ -130,8 +130,11 @@ class AppFixtures extends Fixture
                     ->setName($restaurantBdd->name)
                     ->setPicture($restaurantBdd->picture)
                     ->setAddress($faker->streetAddress())
-                    ->setCity($faker->city())
-                    ->setPromotion($restaurantBdd->promotion);
+                    ->setCity($faker->city());
+                
+                if(!empty($restaurantBdd->promotion)) {
+                    $restaurant->setPromotion($restaurantBdd->promotion);
+                }
 
                 $manager->persist($restaurant);
                 $restaurants[] = $restaurant;
