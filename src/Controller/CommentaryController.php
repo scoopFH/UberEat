@@ -29,6 +29,7 @@ class CommentaryController extends AbstractController
                     $entityManager->persist($commentary);
                     $entityManager->flush();
 
+                    $this->addFlash('success', 'Your comment has been posted');
                     return $this->redirectToRoute('user_orders');
                 }
 
