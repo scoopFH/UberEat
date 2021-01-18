@@ -56,7 +56,7 @@ class OrderDishRepository extends ServiceEntityRepository
     public function getTotalIncome(){
         try {
             return $this->createQueryBuilder('odr')
-                ->select('odr.dish_id','odr.orders_id','odr.quantity')
+                ->select('odr')
                 ->from(Order::class,"od")
                 ->innerJoin(Dish::class, "d",Join::WITH,"od.dish_id = d.id")
                 ->getQuery()
@@ -66,7 +66,5 @@ class OrderDishRepository extends ServiceEntityRepository
         } catch (NonUniqueResultException $e){
             throw $e;
         }
-
     }
-
 }

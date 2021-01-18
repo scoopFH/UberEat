@@ -14,11 +14,13 @@ class StatController extends AbstractController
     /**
      * @Route("/admin/stat", name="stat")
      */
-    public function index(RestaurantRepository $restaurantRepository,OrderRepository $orderRepository): Response
+    public function index(RestaurantRepository $restaurantRepository,OrderRepository $orderRepository,OrderDishRepository $orderDishRepository): Response
     {
         $nbreResaurant = $restaurantRepository->getTotal();
         $getOrderPassed = $orderRepository->getOrderPassed();
         $getOrderInProgress = $orderRepository->getOrderInProgress();
+        $getTotalIncome = $orderDishRepository->getTotalIncome();
+
 
 
 
@@ -27,6 +29,7 @@ class StatController extends AbstractController
             'nbreRestaurants' => $nbreResaurant,
             'orderPassed' => $getOrderPassed,
             'orderInProgress' => $getOrderInProgress,
+            'totalIncome' => $getTotalIncome,
         ]);
     }
 }
