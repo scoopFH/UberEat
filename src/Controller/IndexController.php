@@ -18,7 +18,7 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 class IndexController extends AbstractController
 {
     /**
-     * @Route({"/orderBy/{orderBy}", "/"}, defaults={"orderBy"="none"}, name="home", methods={"GET", "POST"})
+     * @Route({"/{orderBy}", "/"}, defaults={"orderBy"="none"}, name="home", methods={"GET", "POST"})
      */
     public function Home(RestaurantRepository $restaurantRepository, Request $request, string $orderBy): Response
     {
@@ -64,11 +64,10 @@ class IndexController extends AbstractController
 
 
     /**
-     * @Route("/restaurant/description/{id}",name="RestaurantDescription", methods={"GET"})
+     * @Route("/restaurant/description/{id}",name="restaurant_description", methods={"GET"})
      */
     public function RestaurantDescription(Restaurant $restaurant) : Response
     {
-
         return $this->render('index/details.html.twig',[
             'restaurants' => $restaurant
         ]);

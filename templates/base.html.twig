@@ -15,6 +15,16 @@
 	<body>
 		{% block nav %}
 			{% include 'components/nav.html.twig' %}
+			{% for message in app.flashes('success') %}
+				<div class="alert alert-success">
+					{{ message }}
+				</div>
+			{% endfor %}
+			{% for message in app.flashes('warning') %}
+				<div class="alert alert-warning">
+					{{ message }}
+				</div>
+			{% endfor %}
 		{% endblock %}
 		{% block body %}{% endblock %}
 		{% include 'components/footer.html.twig' %}

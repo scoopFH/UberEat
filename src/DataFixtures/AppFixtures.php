@@ -65,7 +65,7 @@ class AppFixtures extends Fixture
             {"name":"Double Stacker Cheese & Bacon","preview":"https://cn-geo1.uber.com/image-proc/resize/eats/format=webp/width=550/height=440/quality=70/srcb64=aHR0cHM6Ly9kMXJhbHNvZ25qbmczNy5jbG91ZGZyb250Lm5ldC81YmQ4NDdhMC1hMTM4LTQxNzktYWUxYS1jNmM4ODk5YzY1ZmIuanBlZw=="},
             {"name":"Boxmaster","preview":"https://cn-geo1.uber.com/image-proc/resize/eats/format=webp/width=550/height=440/quality=70/srcb64=aHR0cHM6Ly9kMXJhbHNvZ25qbmczNy5jbG91ZGZyb250Lm5ldC8yZWZlYzUzZi00YWYwLTRiOWQtOWVhNS03YjAyNDQ5Mzg1YzcuanBlZw=="}
             ]
-        }
+        },
         {
             "name":"L\'Art en Burger",
             "picture":"https://d1ralsognjng37.cloudfront.net/2d7f9781-2d02-4602-82e1-d9d4d3d6938b.jpeg",
@@ -77,6 +77,39 @@ class AppFixtures extends Fixture
             {"name":"Louis","preview":"https://d1ralsognjng37.cloudfront.net/ab045242-68b7-4d7c-b15f-811c07a7d714.jpeg"}
             ]
         },
+        {
+            "name":"YAAFA Falafel",
+            "picture":"https://media-cdn.tripadvisor.com/media/photo-s/09/3e/af/54/yaafa.jpg",
+            "promotion":"",
+            "dishes":[{"name": "Falafels Box","preview":"https://d1ralsognjng37.cloudfront.net/5fb7724b-b624-4950-bb08-f52a9fbfb5c3.jpeg"},
+            {"name":"Y\'a grosse faim","preview":"https://cn-geo1.uber.com/image-proc/resize/eats/format=webp/width=550/height=440/quality=70/srcb64=aHR0cHM6Ly9kMXJhbHNvZ25qbmczNy5jbG91ZGZyb250Lm5ldC84YTkwY2NkZC00MTRhLTQ5YmItYjk1MC1iZjdiMTViNTI0OTIuanBlZw=="},
+            {"name":"Grec - pita","preview":"https://d1ralsognjng37.cloudfront.net/0e4c5286-f0c2-4d44-a801-dbd78c8c813e.jpeg"},
+            {"name":"SOUPE DE BUTTER NUT","preview":"https://d1ralsognjng37.cloudfront.net/fb1310db-fe7e-42d5-b416-9cb381aec6e1.jpeg"},
+            {"name":"Beat\'rave - pita","preview":"https://d1ralsognjng37.cloudfront.net/7d39e654-a5b0-4a3e-9919-520b65f4b536.jpeg"}
+            ]
+        },
+        {
+            "name":"Pazzi Di Pizza - Carla",
+            "picture":"https://d1ralsognjng37.cloudfront.net/cbb6dc66-c0d4-47c3-8499-6441a14f6d97.jpeg",
+            "promotion":"",
+            "dishes":[{"name": "Pizza Reine","preview":"https://d1ralsognjng37.cloudfront.net/4dfa04e6-ce8d-49d6-885a-2a7069d614b7.jpeg"},
+            {"name":"Pizza Indienne","preview":"https://d1ralsognjng37.cloudfront.net/2f53e593-b0f5-417b-8452-52775aa9250f.jpeg"},
+            {"name":"Pizza Reine","preview":"https://d1ralsognjng37.cloudfront.net/4dfa04e6-ce8d-49d6-885a-2a7069d614b7.jpeg"},
+            {"name":"Pizza Chèvre Miel - Tomate","preview":"https://d1ralsognjng37.cloudfront.net/85ed61c7-6ff5-4115-b0d0-a528a1dd0081.jpeg"},
+            {"name":"Pizza Savoyarde","preview":"https://d1ralsognjng37.cloudfront.net/563b4118-f7a6-40ae-bee1-48c0d34098c5.jpeg"}
+            ]
+        },
+        {
+            "name":"Ciao Ciao",
+            "picture":"https://cellerier-hallesdelyon.com/wp-content/uploads/2017/09/ciao-ciao-cellerier.jpg",
+            "promotion":"",
+            "dishes":[{"name": "Speck","preview":"https://d1ralsognjng37.cloudfront.net/119b6c0d-2898-4bd2-889f-4df3f2a71037.jpeg"},
+            {"name":"Mortadelle","preview":"https://d1ralsognjng37.cloudfront.net/597a7528-e81e-495b-b377-19d5982b580e.jpeg"},
+            {"name":"Saucisson abruzzeses","preview":"https://d1ralsognjng37.cloudfront.net/02ad5857-d7f6-4c29-9ce6-3a3eeb3b0c87.jpeg"},
+            {"name":"Jambon cru de Parme","preview":"https://d1ralsognjng37.cloudfront.net/d24632bf-33e2-450e-9854-a2e3cd143c28.jpeg"},
+            {"name":"Jambon cru San Danielle Contessa","preview":"https://d1ralsognjng37.cloudfront.net/faede4e7-7679-4d55-9738-4eb4d7f3042b.jpeg"}
+            ]
+        }
         ]
 }');
 
@@ -97,8 +130,11 @@ class AppFixtures extends Fixture
                     ->setName($restaurantBdd->name)
                     ->setPicture($restaurantBdd->picture)
                     ->setAddress($faker->streetAddress())
-                    ->setCity($faker->city())
-                    ->setPromotion($restaurantBdd->promotion);
+                    ->setCity($faker->city());
+                
+                if(!empty($restaurantBdd->promotion)) {
+                    $restaurant->setPromotion($restaurantBdd->promotion);
+                }
 
                 $manager->persist($restaurant);
                 $restaurants[] = $restaurant;
@@ -106,9 +142,9 @@ class AppFixtures extends Fixture
         }
 
         $user = new User();
-        $user->setEmail('matthias@gmail.com')
-            ->setLastname('Chometon')
-            ->setFirstname('Matthias')
+        $user->setEmail('william@gmail.com')
+            ->setLastname('William')
+            ->setFirstname('William')
             ->setaddress('521 rue de la Vilette')
             ->setCity('Lyon')
             ->setBalance(30)
@@ -118,9 +154,9 @@ class AppFixtures extends Fixture
         $manager->persist($user);
 
         $user = new User();
-        $user->setEmail('william@gmail.com')
-            ->setLastname('William')
-            ->setFirstname('William')
+        $user->setEmail('matthiaschometon787@gmail.com')
+            ->setLastname('Matthias')
+            ->setFirstname('Chometon')
             ->setaddress('52 rue du Colémara')
             ->setCity('Lyon')
             ->setBalance(600)

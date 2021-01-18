@@ -12,7 +12,7 @@ use Symfony\Component\Routing\Annotation\Route;
 class StatController extends AbstractController
 {
     /**
-     * @Route("/admin/stat", name="stat")
+     * @Route("/admin/stat", name="admin_stat")
      */
     public function index(RestaurantRepository $restaurantRepository,OrderRepository $orderRepository,OrderDishRepository $orderDishRepository): Response
     {
@@ -20,9 +20,6 @@ class StatController extends AbstractController
         $getOrderPassed = $orderRepository->getOrderPassed();
         $getOrderInProgress = $orderRepository->getOrderInProgress();
         $getTotalIncome = $orderDishRepository->getTotalIncome();
-
-
-
 
 
         return $this->render('stat/index.html.twig', [

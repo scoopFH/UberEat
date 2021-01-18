@@ -60,9 +60,9 @@ class ShoppingController extends AbstractController
      */
     public function add($id, DishRepository $dishRepository): Response
     {
-        if(!is_null($this->shoppingBasket) || !empty($this->shoppingBasket)) {
-            foreach($this->shoppingBasket as $idDish => $quantity) {
-                if($dishRepository->find($idDish)->getRestaurant() != $dishRepository->find($id)->getRestaurant()) {
+        if (!is_null($this->shoppingBasket) || !empty($this->shoppingBasket)) {
+            foreach ($this->shoppingBasket as $idDish => $quantity) {
+                if ($dishRepository->find($idDish)->getRestaurant() != $dishRepository->find($id)->getRestaurant()) {
                     return $this->redirectToRoute('shopping_index');
                 }
             }
@@ -102,7 +102,7 @@ class ShoppingController extends AbstractController
      */
     public function buyOrder(DishRepository $dishRepository, MailerInterface $mailer): Response
     {
-        if ($this->shoppingBasket != "") {
+        if ($this->shoppingBasket != []) {
             $entityManager = $this->getDoctrine()->getManager();
             $order = new Order();
             $total = 2.5;
@@ -123,6 +123,14 @@ class ShoppingController extends AbstractController
             }
 
             $user = $this->getUser();
+
+            if($user->getBalance() < $total) {
+                $this->addFlash('warning', 'Your order cannot be completed');
+                return $this->redirectToRoute('home');
+            } else {
+                $user->setBalance($user->getBalance() - $total);
+            }
+           
             $order->setUsers($user);
 
             $entityManager->persist($order);
@@ -159,6 +167,7 @@ class ShoppingController extends AbstractController
             $mailer->send($email);
 
             $this->session->remove('shoppingBasket');
+            $this->addFlash('success', 'Your order has been completed');
             return $this->redirectToRoute('shopping_index');
         }
         return $this->redirectToRoute('home');

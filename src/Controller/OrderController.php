@@ -38,6 +38,7 @@ class OrderController extends AbstractController
             $entityManager->persist($order);
             $entityManager->flush();
 
+            $this->addFlash('success', 'Your order has been created');
             return $this->redirectToRoute('order_index');
         }
 
@@ -68,6 +69,7 @@ class OrderController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $this->getDoctrine()->getManager()->flush();
 
+            $this->addFlash('success', 'Your order has been modified');
             return $this->redirectToRoute('order_index');
         }
 
@@ -86,6 +88,7 @@ class OrderController extends AbstractController
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->remove($order);
             $entityManager->flush();
+            $this->addFlash('success', 'Your order has been deleted');
         }
 
         return $this->redirectToRoute('order_index');
@@ -123,6 +126,7 @@ class OrderController extends AbstractController
             if ($form->isSubmitted() && $form->isValid()) {
                 $this->getDoctrine()->getManager()->flush();
 
+                $this->addFlash('success', 'Your order has been modified');
                 return $this->redirectToRoute('restorer_order_index');
             }
 

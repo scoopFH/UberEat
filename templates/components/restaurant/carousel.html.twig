@@ -11,13 +11,17 @@
 	<div class="carousel-inner">
 		{% for key, restaurant in restaurants %}
 			{% if key == 0 %}
+				{# <a href="{{ path('restaurant_description', {'id': restaurant.id}) }}"> #}
 				<div class="carousel-item active" style="overflow: hidden;">
 					<img class="d-block w-100" style="object-fit: cover;" src="{{ restaurant.promotion }}" alt="{{ restaurant.name }}">
 				</div>
+				{# </a> #}
 			{% else %}
+				{# <a href="{{ path('restaurant_description', {'id': restaurant.id}) }}"> #}
 				<div class="carousel-item" style="overflow: hidden;">
 					<img class="d-block w-100" style="object-fit: cover;" src="{{ restaurant.promotion }}" alt="{{ restaurant.name }}">
 				</div>
+				{# </a> #}
 			{% endif %}
 		{% endfor %}
 	</div>

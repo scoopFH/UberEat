@@ -36,6 +36,7 @@ class DishController extends AbstractController
             $entityManager->persist($dish);
             $entityManager->flush();
 
+            $this->addFlash('success', 'Your dish has been created');
             return $this->redirectToRoute('dish_index');
         }
 
@@ -66,6 +67,7 @@ class DishController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $this->getDoctrine()->getManager()->flush();
 
+            $this->addFlash('success', 'Your dish has been modified');
             return $this->redirectToRoute('dish_index');
         }
 
@@ -86,6 +88,7 @@ class DishController extends AbstractController
             $entityManager->flush();
         }
 
+        $this->addFlash('success', 'Your dish has been deleted');
         return $this->redirectToRoute('dish_index');
     }
 
@@ -123,6 +126,7 @@ class DishController extends AbstractController
             if ($form->isSubmitted() && $form->isValid()) {
                 $this->getDoctrine()->getManager()->flush();
 
+                $this->addFlash('success', 'Your dish has been modified');
                 return $this->redirectToRoute('restorer_dish_index');
             }
 
@@ -153,6 +157,7 @@ class DishController extends AbstractController
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->remove($dish);
             $entityManager->flush();
+            $this->addFlash('success', 'Your dish has been deleted');
         }
 
         return $this->redirectToRoute('restorer_dish_index');
@@ -175,6 +180,7 @@ class DishController extends AbstractController
             $entityManager->persist($dish);
             $entityManager->flush();
 
+            $this->addFlash('success', 'Your dish has been created');
             return $this->redirectToRoute('restorer_dish_index');
         }
 
@@ -182,28 +188,5 @@ class DishController extends AbstractController
             'dish' => $dish,
             'form' => $form->createView(),
         ]);
-    }
-
-    /**
-     * @Route("/restorer/dish/{id}", name="restorer_dish_delete", methods={"DELETE"})
-     */
-    public function deleteRestorerDish(Request $request, Dish $dish): Response
-    {
-        $userOwnDish = false;
-        $dishes = $this->getUser()->getRestaurant()->getDish();
-
-        foreach ($dishes as &$myDish) {
-            if ($myDish->getId() == $dish->getId()) {
-                $userOwnDish = true;
-            }
-        }
-
-        if ($this->isCsrfTokenValid('delete' . $dish->getId(), $request->request->get('_token')) && $userOwnDish) {
-            $entityManager = $this->getDoctrine()->getManager();
-            $entityManager->remove($dish);
-            $entityManager->flush();
-        }
-
-        return $this->redirectToRoute('restorer_dish_index');
     }
 }
