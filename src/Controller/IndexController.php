@@ -51,11 +51,14 @@ class IndexController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $restaurantName = $form->getData()->getName();
+
             if ($orderBy == "promotion") {
                 $restaurants = $restaurantRepository->search($restaurantName, $orderBy, 'DESC');
             }
             if ($orderBy == "name") {
                 $restaurants = $restaurantRepository->search($restaurantName, $orderBy);
+            } else {
+                $restaurants = $restaurantRepository->search($restaurantName, 'id');
             }
         }
 
