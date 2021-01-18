@@ -65,7 +65,7 @@ class OrderRepository extends ServiceEntityRepository
         try {
             return $this->createQueryBuilder('o')
                 ->select("COUNT(o.state)")
-                ->andWhere("o.state = 'delivered'")
+                ->andWhere("o.state = 'in delivering' OR o.state = 'in preparation'")
                 ->getQuery()
                 ->getSingleScalarResult();
         } catch (NoResultException $e){

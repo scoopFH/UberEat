@@ -16,14 +16,14 @@ class StatController extends AbstractController
      */
     public function index(RestaurantRepository $restaurantRepository,OrderRepository $orderRepository,OrderDishRepository $orderDishRepository): Response
     {
-        $nbreResaurant = $restaurantRepository->getTotal();
+        $nombreRestaurant = $restaurantRepository->getTotal();
         $getOrderPassed = $orderRepository->getOrderPassed();
         $getOrderInProgress = $orderRepository->getOrderInProgress();
         $getTotalIncome = $orderDishRepository->getTotalIncome();
 
 
         return $this->render('stat/index.html.twig', [
-            'nbreRestaurants' => $nbreResaurant,
+            'nombreRestaurants' => $nombreRestaurant,
             'orderPassed' => $getOrderPassed,
             'orderInProgress' => $getOrderInProgress,
             'totalIncome' => $getTotalIncome,
