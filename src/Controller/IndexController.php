@@ -18,12 +18,18 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 class IndexController extends AbstractController
 {
     /**
-     * @Route({"/{orderBy}", "/"}, defaults={"orderBy"="none"}, name="home", methods={"GET", "POST"})
+     * @Route({"/"}, name="home", methods={"GET", "POST"})
      */
-    public function Home(RestaurantRepository $restaurantRepository, Request $request, string $orderBy): Response
+    public function Home(RestaurantRepository $restaurantRepository, Request $request): Response
     {
         $form = $this->createForm(SearchRestaurantType::class);
         $form->handleRequest($request);
+
+        if($request->query->get('orderBy')) {
+            $orderBy = $request->query->get('orderBy');
+        } else {
+            $orderBy = "none";
+        }
 
         $restaurantsShowCarousel = 3;
         $orderByList = ["name","promotion"];
