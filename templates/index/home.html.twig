@@ -1,12 +1,14 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}{{parent()}}Home
+{% block title %}
+	{{parent()}}Home
 {% endblock %}
 
 {% block body %}
 	<style>
 		@media(max-width: 576px) {
-			.search, .buttonSearch {
+			.search,
+			.buttonSearch {
 				width: 97vw;
 			}
 			.searchContainer {
@@ -25,6 +27,10 @@
 				display: flex;
 				flex-direction: row;
 			}
+		}
+		.buttonClose {
+			border-style: none;
+			background-color: rgba(255, 255, 128, 0.0);
 		}
 	</style>
 
@@ -63,6 +69,12 @@
 			<div class="form-error">
 				{{ form_errors(form.name) }}
 			</div>
+
+			<button class="buttonClose" type="button" aria-label="Close">
+				<a class="btn p-0" href="{{ path('home') }}">
+					<span class="padding: 0px;" style="margin-bottom: 7px;" aria-hidden="true">&times;</span>
+				</a>
+			</button>
 
 			<div class="p-2">
 				<button class="btn btn-primary buttonSearch" type="submit">{{ button_label|default('Search') }}</button>

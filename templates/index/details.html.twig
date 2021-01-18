@@ -1,23 +1,49 @@
 {% extends 'base.html.twig' %}
 
-{% block body %}
-    <div class="col-md-5 p-lg-5 mx-auto my-5">
-        <img src="{{ restaurants.picture }}">
-        <h1 class="display-4 fw-normal">{{ restaurants.name }}</h1>
-        <h5>{{ restaurants.address }}</h5>
-        <h5>{{ restaurants.city }}</h5>
-    </div>
+{% block title %}
+	{{ parent() }}{{restaurants.name}}
+{% endblock %}
 
-    <div class="d-flex flex-wrap" style="margin: 10px ">
-    {% for dish in restaurants.dishes %}
-        <div class="card" style="width: 18rem; margin: 10px">
-            <img class="card-img-top" src="{{ dish.preview}}" alt="Card image cap">
-            <div class="card-body">
-                <h5 class="card-title">{{ dish.name }}</h5>
-                <p class="card-text">{{ dish.price}} €</p>
-            </div>
-        </div>
-        <br>
-    {% endfor %}
-    </div>
+{% block body %}
+	<style>
+		@media(max-width: 576px) {
+			.restaurantImgContainer {
+				height: 15vh;
+			}
+		}
+		@media(min-width: 577px) {
+			.restaurantImgContainer {
+				height: 30vh;
+			}
+		}
+	</style>
+	<div class="">
+		<div class="d-flex align-items-center restaurantImgContainer" style="overflow: hidden;">
+			<img class="w-100" style="object-fit: cover;  object-position: center center;" src="{{ restaurants.picture }}">
+		</div>
+		<div class="ml-4 mr-4 mt-4 mb-5">
+			<h1 class="display-4 fw-normal">{{ restaurants.name }}</h1>
+			<h5>{{ restaurants.address }}</h5>
+			<h5>{{ restaurants.city }}</h5>
+		</div>
+	</div>
+
+	<div class="d-flex flex-wrap justify-content-center" style="margin: 10px ">
+		{% for dish in restaurants.dishes %}
+			<div class="card" style="width: 25rem; margin: 10px">
+				<div style="overflow: hidden;">
+					<img class="w-100 card-img-top" style="object-fit: cover; max-height: 300px; object-position: center center;" src="{{ dish.preview}}" alt="{{ dish.name }}">
+				</div>
+				<div class="card-body">
+					<h5 class="card-title">{{ dish.name }}</h5>
+					<p class="card-text">{{ dish.price}}
+						€</p>
+					{% if app.user %}
+						<a href="{{ path('shopping_add', {'id': dish.id}) }}" class="btn btn-primary">add to order</a>
+					{% endif %}
+				</div>
+			</div>
+			<br>
+		{% endfor %}
+	</div>
 {% endblock %}
