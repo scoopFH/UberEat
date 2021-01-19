@@ -1,5 +1,5 @@
 
 deployment:
   tasks:
-    - export DEPLOYPATH=/home/scoopapp/public_html/public/
+    - export DEPLOYPATH=/home/scoopapp/public_html/
     - /bin/cp -R * $DEPLOYPATH
