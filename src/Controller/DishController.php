@@ -130,7 +130,7 @@ class DishController extends AbstractController
                 return $this->redirectToRoute('restorer_dish_index');
             }
 
-            return $this->render('dish/edit.html.twig', [
+            return $this->render('/admin/dish/edit.html.twig', [
                 'dish' => $dish,
                 'form' => $form->createView(),
             ]);
