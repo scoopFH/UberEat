@@ -1,5 +1,5 @@
 
 deployment:
   tasks:
-    - export DEPLOYPATH=/home/scoopapp/repositories/UberEat
+    - export DEPLOYPATH=/home/scoopapp/public_html/
     - /bin/cp -R images $DEPLOYPATH
