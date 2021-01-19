@@ -39,7 +39,7 @@
 					<p class="card-text">{{ dish.price}}
 						€</p>
 					{% if app.user %}
-						<a href="{{ path('shopping_add', {'id': dish.id}) }}" class="btn btn-primary">add to order</a>
+						<a href="{{ path('restaurant_shopping_add', {'id': dish.id}) }}" class="btn btn-primary">add to order</a>
 					{% endif %}
 				</div>
 			</div>

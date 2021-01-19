@@ -140,7 +140,7 @@ class OrderController extends AbstractController
     }
 
     /**
-     * @Route("/orders", name="user_orders", methods={"GET","POST"})
+     * @Route("/orders/show", name="user_orders", methods={"GET","POST"})
      */
     public function showOrders(OrderRepository $orderRepo): Response
     {

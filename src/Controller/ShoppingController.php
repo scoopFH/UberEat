@@ -28,7 +28,7 @@ class ShoppingController extends AbstractController
     }
 
     /**
-     * @Route("/shopping", name="shopping_index")
+     * @Route("/shopping/recap", name="shopping_index")
      */
     public function index(DishRepository $dishRepository): Response
     {
@@ -80,6 +80,32 @@ class ShoppingController extends AbstractController
     }
 
     /**
+     * @Route("/restaurant/shopping/add/{id}", name="restaurant_shopping_add")
+     */
+    public function addFromRestaurant($id, DishRepository $dishRepository): Response
+    {
+        if (!is_null($this->shoppingBasket) || !empty($this->shoppingBasket)) {
+            foreach ($this->shoppingBasket as $idDish => $quantity) {
+                if ($dishRepository->find($idDish)->getRestaurant() != $dishRepository->find($id)->getRestaurant()) {
+                    return $this->redirectToRoute('home');
+                }
+            }
+        }
+
+        if (empty($this->shoppingBasket[$id])) {
+            $this->shoppingBasket[$id] = 0;
+        }
+
+        $this->shoppingBasket[$id]++;
+
+        $this->session->set('shoppingBasket', $this->shoppingBasket);
+
+        return $this->render('index/details.html.twig', [
+            "restaurants" => $dishRepository->find($id)->getRestaurant(),
+        ]);
+    }
+
+    /**
      * @Route("/shopping/remove/{id}", name="shopping_remove")
      */
     public function remove($id): Response
@@ -124,13 +150,13 @@ class ShoppingController extends AbstractController
 
             $user = $this->getUser();
 
-            if($user->getBalance() < $total) {
+            if ($user->getBalance() < $total) {
                 $this->addFlash('warning', 'Your order cannot be completed');
                 return $this->redirectToRoute('home');
             } else {
                 $user->setBalance($user->getBalance() - $total);
             }
-           
+
             $order->setUsers($user);
 
             $entityManager->persist($order);
