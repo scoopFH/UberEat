@@ -1,49 +1,66 @@
-{% extends 'base.html.twig' %}
 
-{% block title %}{{parent()}}User index{% endblock %}
-
-{% block body %}
-    <h1>User index</h1>
-
-    <table class="table">
-        <thead>
-            <tr>
-                <th>Id</th>
-                <th>Email</th>
-                <th>Roles</th>
-                <th>Password</th>
-                <th>Lastname</th>
-                <th>Address</th>
-                <th>City</th>
-                <th>Firstname</th>
-                <th>Balance</th>
-                <th>actions</th>
-            </tr>
-        </thead>
-        <tbody>
-        {% for user in users %}
-            <tr>
-                <td>{{ user.id }}</td>
-                <td>{{ user.email }}</td>
-                <td>{{ user.roles ? user.roles|json_encode : '' }}</td>
-                <td>{{ user.password }}</td>
-                <td>{{ user.lastname }}</td>
-                <td>{{ user.address }}</td>
-                <td>{{ user.city }}</td>
-                <td>{{ user.firstname }}</td>
-                <td>{{ user.balance }}</td>
-                <td>
-                    <a href="{{ path('user_show', {'id': user.id}) }}">show</a>
-                    <a href="{{ path('user_edit', {'id': user.id}) }}">edit</a>
-                </td>
-            </tr>
-        {% else %}
-            <tr>
-                <td colspan="10">no records found</td>
-            </tr>
-        {% endfor %}
-        </tbody>
-    </table>
-
-    <a href="{{ path('user_new') }}">Create new</a>
-{% endblock %}
+{% include 'components/admin/base_admin.html.twig' %}
+    {% include 'components/admin/nav_admin.html.twig' %}
+    {% include 'components/admin/body_header.html.twig' %}
+    {% block body %}
+        <div class="row">
+            <div class="col-md-12">
+                <!-- DATA TABLE -->
+                <h3 class="title-5 m-b-35">User Table</h3>
+                <div class="table-data__tool-right">
+                    <a class="au-btn au-btn-icon au-btn--green au-btn--small" href="{{ path('user_new') }}">
+                        <i class="zmdi zmdi-plus"></i>add user</a>
+                </div>
+            </div>
+            <div class="table-responsive table-responsive-data2">
+                <table class="table table-data2">
+                    <thead>
+                    <tr>
+                        <th>id</th>
+                        <th>name</th>
+                        <th>email</th>
+                        <th>address</th>
+                        <th>city</th>
+                        <th>Balance</th>
+                        <th>Role</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for user in users %}
+                        <tr class="tr-shadow">
+                            <td>{{ user.id }}</td>
+                            <td>{{ user.firstname }} {{ user.lastname }}</td>
+                            <td>
+                                <span class="block-email">{{ user.email }}</span>
+                            </td>
+                            <td class="desc">{{ user.address }}</td>
+                            <td>{{ user.city }}</td>
+                            <td>{{ user.balance }} $</td>
+                            <td>{{ user.roles ? user.roles|json_encode : '' }}</td>
+                            <td>
+                                <div class="table-data-feature">
+                                    <a class="item" data-toggle="tooltip" data-placement="top" title="Send" href="{{ path('user_show', {'id': user.id}) }}">
+                                        <i class="zmdi zmdi-mail-send"></i>
+                                    </a>
+                                    <a class="item" data-toggle="tooltip" data-placement="top" title="Edit" href="{{ path('user_edit', {'id': user.id}) }}">
+                                        <i class="zmdi zmdi-edit"></i>
+                                    </a>
+                                    <form method="post" action="{{ path('user_delete', {'id': user.id}) }}" onsubmit="return confirm('Are you sure you want to delete this item?');">
+                                        <input type="hidden" name="_method" value="DELETE">
+                                        <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ user.id) }}">
+                                        <button class="item" data-toggle="tooltip" data-placement="top" title="Delete">
+                                            <i class="zmdi zmdi-delete"></i>
+                                        </button>
+                                    </form>
+                                </div>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+            <!-- END DATA TABLE -->
+        </div>
+        </div>
+    {% endblock %}
+    {% include 'components/admin/footer_admin.html.twig' %}

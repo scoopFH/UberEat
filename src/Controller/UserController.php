@@ -24,6 +24,18 @@ class UserController extends AbstractController
     }
 
     /**
+     * @Route("/admin/userTemp", name="user_indextemp", methods={"GET"})
+     */
+    public function indexTest(UserRepository $userRepository): Response
+    {
+        return $this->render('admin/user/indextemp.html.twig', [
+            'users' => $userRepository->findAll(),
+        ]);
+    }
+
+
+
+    /**
      * @Route("/admin/user/new", name="user_new", methods={"GET","POST"})
      */
     public function new(Request $request): Response
@@ -87,7 +99,7 @@ class UserController extends AbstractController
             $entityManager->flush();
         }
 
-        return $this->redirectToRoute('user_index');
+        return $this->redirectToRoute('user_indextemp');
     }
 
     /**
@@ -102,7 +114,7 @@ class UserController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $this->getDoctrine()->getManager()->flush();
 
-            return $this->redirectToRoute('account_edit');
+            return $this->redirectToRoute('');
         }
 
         return $this->render('user/account/edit.html.twig', [
