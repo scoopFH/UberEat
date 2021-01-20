@@ -87,7 +87,7 @@ class UserController extends AbstractController
             $entityManager->flush();
         }
 
-        return $this->redirectToRoute('user_index');
+        return $this->redirectToRoute('user_indextemp');
     }
 
     /**
@@ -102,7 +102,7 @@ class UserController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $this->getDoctrine()->getManager()->flush();
 
-            return $this->redirectToRoute('account_edit');
+            return $this->redirectToRoute('');
         }
 
         return $this->render('user/account/edit.html.twig', [
