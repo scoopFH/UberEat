@@ -25,7 +25,7 @@ class SecurityController extends AbstractController
     }
 
     /**
-     * @Route("/registration/login", name="app_login")
+     * @Route("/login", name="app_login")
      */
     public function login(AuthenticationUtils $authenticationUtils): Response
     {
@@ -42,7 +42,7 @@ class SecurityController extends AbstractController
     }
 
     /**
-     * @Route("/registration/logout", name="app_logout")
+     * @Route("/logout", name="app_logout")
      */
     public function logout()
     {
@@ -50,7 +50,7 @@ class SecurityController extends AbstractController
     }
 
     /**
-     * @Route("/registration/register", name="register_user", methods={"GET","POST"})
+     * @Route("/register", name="register_user", methods={"GET","POST"})
      */
     public function registerUser(Request $request): Response
     {
