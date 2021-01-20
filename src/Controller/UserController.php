@@ -24,18 +24,6 @@ class UserController extends AbstractController
     }
 
     /**
-     * @Route("/admin/userTemp", name="user_indextemp", methods={"GET"})
-     */
-    public function indexTest(UserRepository $userRepository): Response
-    {
-        return $this->render('admin/user/indextemp.html.twig', [
-            'users' => $userRepository->findAll(),
-        ]);
-    }
-
-
-
-    /**
      * @Route("/admin/user/new", name="user_new", methods={"GET","POST"})
      */
     public function new(Request $request): Response
