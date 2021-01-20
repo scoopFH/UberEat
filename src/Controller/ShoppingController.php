@@ -99,6 +99,7 @@ class ShoppingController extends AbstractController
         $this->shoppingBasket[$id]++;
 
         $this->session->set('shoppingBasket', $this->shoppingBasket);
+        $this->addFlash('success', $dishRepository->find($id)->getName().' has been add to your order');
 
         return $this->render('index/details.html.twig', [
             "restaurants" => $dishRepository->find($id)->getRestaurant(),

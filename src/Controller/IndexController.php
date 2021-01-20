@@ -28,10 +28,10 @@ class IndexController extends AbstractController
         $restaurantsShowCarousel = 3;
         $orderByList = ["name","promotion"];
 
+        $orderBy = "";
+
         if($request->query->get('orderBy')) {
             $orderBy = $request->query->get('orderBy');
-        } else {
-            $orderBy = "none";
         }
 
         if ($orderBy == "name") {

@@ -144,9 +144,9 @@ class AppFixtures extends Fixture
         $user = new User();
         $user->setEmail('william@gmail.com')
             ->setLastname('William')
-            ->setFirstname('William')
-            ->setaddress('521 rue de la Vilette')
-            ->setCity('Lyon')
+            ->setFirstname('Klein')
+            ->setaddress($faker->streetAddress())
+            ->setCity($faker->state())
             ->setBalance(30)
             ->setRoles(['ROLE_ADMIN'])
             ->setPassword('password');
@@ -157,9 +157,9 @@ class AppFixtures extends Fixture
         $user->setEmail('matthiaschometon787@gmail.com')
             ->setLastname('Matthias')
             ->setFirstname('Chometon')
-            ->setaddress('52 rue du Colémara')
-            ->setCity('Lyon')
-            ->setBalance(600)
+            ->setaddress($faker->streetAddress())
+            ->setCity($faker->state())
+            ->setBalance($faker->numberBetween(60,2450))
             ->setRoles(['ROLE_RESTORER'])
             ->setRestaurant($restaurants[$faker->numberBetween(0, count($restaurants) - 1)])
             ->setPassword('password');
@@ -169,9 +169,9 @@ class AppFixtures extends Fixture
         $user->setEmail('daniel@gmail.com')
             ->setLastname('Daniel')
             ->setFirstname('Faucheron')
-            ->setaddress('12 rue de Jeaubourg')
-            ->setCity('Lyon')
-            ->setBalance(1200)
+            ->setaddress($faker->streetAddress())
+            ->setCity($faker->state())
+            ->setBalance($faker->numberBetween(60,2450))
             ->setPassword('password');
         $manager->persist($user);
 

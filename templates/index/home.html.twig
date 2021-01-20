@@ -40,7 +40,7 @@
 			here is the list of your favorite restaurants</p>
 		<div class="d-flex justify-content-center align-items-center searchContainer">
 			<select class="form-control form-control-sm buttonSearch" onchange="location = this.value;" aria-label="Default select example">
-				{% if orderBy == "none" %}
+				{% if orderBy == "" %}
 					<option selected>
 						order by
 					</option>
