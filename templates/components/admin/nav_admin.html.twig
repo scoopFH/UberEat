@@ -118,7 +118,7 @@
 <!-- MENU SIDEBAR-->
 <aside class="menu-sidebar d-none d-lg-block">
     <div class="logo">
-        <a href="#">
+        <a href="{{ path('admin_stat') }}">
             <img src="https://mon-parrainage.com/wp-content/uploads/2018/08/uber-eats.png" alt="Cool Admin" class="w-25 h-25"/>
         </a>
     </div>
@@ -173,15 +173,6 @@
                         </li>
                     </ul>
                 </li>
-                <li class="has-sub">
-                    <a class="js-arrow" href="#">
-                        <i class="fas fa-desktop"></i>Test</a>
-                    <ul class="list-unstyled navbar__sub-list js-sub-list">
-                        <li>
-                            <a href="{{ path('user_indextemp') }}">TempUser</a>
-                        </li>
-                    </ul>
-                </li>
             </ul>
         </nav>
     </div>
@@ -189,4 +180,3 @@
 <!-- END MENU SIDEBAR-->
 <!-- PAGE CONTAINER-->
 <div class="page-container">
-

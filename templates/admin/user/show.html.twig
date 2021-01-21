@@ -1,87 +1,79 @@
-{% extends 'base.html.twig' %}
 
-{% block title %}{{parent()}}User
-{% endblock %}
-
-{% block body %}
+{% include 'components/admin/base_admin.html.twig' %}
+{% include 'components/admin/nav_admin.html.twig' %}
+{% include 'components/admin/body_header.html.twig' %}
 	<h1>User</h1>
+<div class="container-fluid">
+	<div class="row">
+		<div class="col-lg-12">
+			<div class="table-responsive table--no-card m-b-30">
+				<table class="table table-borderless table-striped table-earning">
+					<thead>
+					<tr>
+						<th>Id</th>
+						<th>Email</th>
+						<th>name</th>
+						<th class="text-right">Roles</th>
+						<th class="text-right">Address</th>
+						<th class="text-right">city</th>
+						<th class="text-right">Balance</th>
+					</tr>
+					</thead>
+					<tbody>
+					<tr>
+						<td>{{ user.id }}</td>
+						<td>{{ user.email }}</td>
+						<td>{{ user.lastname }} {{ user.firstname }}</td>
+						<td class="text-right">{{ user.roles ? user.roles|json_encode : '' }}</td>
+						<td class="text-right">{{ user.address }}</td>
+						<td class="text-right">{{ user.city }}</td>
+						<td class="text-right">{{ user.balance }}</td>
+					</tr>
 
-	<table class="table">
-		<tbody>
-			<tr>
-				<th>Id</th>
-				<td>{{ user.id }}</td>
-			</tr>
-			<tr>
-				<th>Email</th>
-				<td>{{ user.email }}</td>
-			</tr>
-			<tr>
-				<th>Roles</th>
-				<td>{{ user.roles ? user.roles|json_encode : '' }}</td>
-			</tr>
-			<tr>
-				<th>Password</th>
-				<td>{{ user.password }}</td>
-			</tr>
-			<tr>
-				<th>Lastname</th>
-				<td>{{ user.lastname }}</td>
-			</tr>
-			<tr>
-				<th>Address</th>
-				<td>{{ user.address }}</td>
-			</tr>
-			<tr>
-				<th>City</th>
-				<td>{{ user.city }}</td>
-			</tr>
-			<tr>
-				<th>Firstname</th>
-				<td>{{ user.firstname }}</td>
-			</tr>
-			<tr>
-				<th>Balance</th>
-				<td>{{ user.balance }}</td>
-			</tr>
-			<caption class="d-flex flex-column ml-2">
-				<h2 class="text-dark">orders</h2>
+					</tbody>
+				</table>
+			</div>
+		</div>
+	</div>
+</div>
+
+<div class="row m-t-30">
+	<div class="col-md-12">
+		<!-- DATA TABLE-->
+		<div class="table-responsive m-b-40">
+			<table class="table table-borderless table-data3">
+				<h2>Orders</h2>
+				<thead>
+				<tr>
+					<th>Id</th>
+					<th>Delivery Date</th>
+					<th>Status</th>
+					<th>Dishes</th>
+				</tr>
+				</thead>
+				<tbody>
 				{% for order in user.orders %}
-					<div class="m-4">
-						<div>
-							<span class="text-dark">id:
-							</span>
-							{{ order.id }}</div>
-						<div>
-							<span class="text-dark">state:
-							</span>
-							{{ order.state }}</div>
-						<div>
-							<span class="text-dark">delivery date:
-							</span>
-							{{ order.deliveryDate|date('Y-m-d H:i:s') }}</div>
-						<div>
-							<span class="text-dark">name:
-							</span>
-							{{ order.users.firstname }}
-							{{ order.users.firstname }}</div>
-						<span class="text-dark">dishes:
-						</span>
-						{% for orderDish in order.orderDishes %}
-							<div>
-								{{ orderDish.quantity }}
-								{{ orderDish.dish.name }}
-							</div>
-						{% endfor %}
-					</div>
-				{% endfor %}
-			</caption>
-		</tbody>
-	</table>
+				<tr>
+					<td>{{ order.id }}</td>
+					<td>{{ order.state }}</td>
+					<td>{{ order.deliveryDate|date('Y-m-d H:i:s') }}</td>
+					{% for orderDish in order.orderDishes %}
+					<td>
+						{{ orderDish.quantity }}
+						{{ orderDish.dish.name }}
+					</td>
+					{% endfor %}
+					{% endfor %}
+				</tr>
+				</tbody>
+			</table>
+		</div>
+		<!-- END DATA TABLE-->
+	</div>
+</div>
+	<a class="btn btn-primary" href="{{ path('user_index') }}">back to list</a>
 
-	<a href="{{ path('user_index') }}">back to list</a>
+	<a class="btn btn-primary" href="{{ path('user_edit', {'id': user.id}) }}">edit</a>
 
-	<a href="{{ path('user_edit', {'id': user.id}) }}">edit</a>
 
-	{{ include('admin/user/_delete_form.html.twig') }}
-{% endblock %}
+		{% include 'components/admin/footer_admin.html.twig' %}

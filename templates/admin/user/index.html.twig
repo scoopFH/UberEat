@@ -1,4 +1,3 @@
-
 {% include 'components/admin/base_admin.html.twig' %}
     {% include 'components/admin/nav_admin.html.twig' %}
     {% include 'components/admin/body_header.html.twig' %}
@@ -39,8 +38,8 @@
                             <td>{{ user.roles ? user.roles|json_encode : '' }}</td>
                             <td>
                                 <div class="table-data-feature">
-                                    <a class="item" data-toggle="tooltip" data-placement="top" title="Send" href="{{ path('user_show', {'id': user.id}) }}">
-                                        <i class="zmdi zmdi-mail-send"></i>
+                                    <a class="item" data-toggle="tooltip" data-placement="top" title="More" href="{{ path('user_show', {'id': user.id}) }}">
+                                        <i class="zmdi zmdi-more"></i>
                                     </a>
                                     <a class="item" data-toggle="tooltip" data-placement="top" title="Edit" href="{{ path('user_edit', {'id': user.id}) }}">
                                         <i class="zmdi zmdi-edit"></i>

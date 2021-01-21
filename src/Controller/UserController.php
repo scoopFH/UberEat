@@ -87,7 +87,7 @@ class UserController extends AbstractController
             $entityManager->flush();
         }
 
-        return $this->redirectToRoute('user_indextemp');
+        return $this->redirectToRoute('user_index');
     }
 
     /**
