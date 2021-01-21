@@ -1,6 +1,7 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}{{parent()}}Orders
+{% block title %}
+	{{parent()}}Orders
 {% endblock %}
 
 {% block body %}
@@ -11,7 +12,8 @@
 			<tr>
 				<th>Delivery date</th>
 				<th>Dishes</th>
-                <th>State</th>
+				<th>State</th>
+				<th>Commentary</th>
 				<th>actions</th>
 			</tr>
 		</thead>
@@ -21,19 +23,30 @@
 					<td>{{ order.deliveryDate ? order.deliveryDate|date('Y-m-d H:i:s') : '' }}</td>
 					<td>
 						{% for orderDish in order.orderDishes %}
-							{{ orderDish.quantity }} {{ orderDish.dish.name }} <p></p>
+							{{ orderDish.quantity }}
+							{{ orderDish.dish.name }}
+							<p></p>
 						{% endfor %}
+
 					</td>
-                    <td>{{ order.state }}</td>
+					<td>{{ order.state }}</td>
 					<td>
-						<a href="{{ path('restorer_order_edit', {'id': order.id}) }}">edit</a>
+						"
+						{{ order.commentary.message }}
+						"
+												the
+						{{ order.commentary.sendDate ? order.commentary.sendDate|date('Y-m-d H:i:s') : '' }}</td>
+					<td>
+						<a href="{{ path('restorer_order_edit', {'id': order.id}) }}">
+							edit
+						</a>
 					</td>
 				</tr>
-			{% else %}
-				<tr>
-					<td colspan="3">no records found</td>
-				</tr>
-			{% endfor %}
+			</td>
 		</tbody>
-	</table>
-{% endblock %}
+	</tr>
+{% else %}
+	<tr>
+		<td colspan="3">no records found</td>
+	</tr>
+{% endfor %}</tbody></table>{% endblock %}
