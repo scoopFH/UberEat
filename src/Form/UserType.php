@@ -5,6 +5,7 @@ namespace App\Form;
 use App\Entity\Restaurant;
 use App\Entity\User;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -28,6 +29,13 @@ class UserType extends AbstractType
                 'choice_label' => 'name',
                 'expanded' => true,
                 'required' => false,              
+            ])
+            ->add('roles', ChoiceType::class, [
+                'choices' => [
+                    'restorer' => 'ROLE_RESTORER',
+                    'admin' => 'ROLE_ADMIN'
+                ],
+                'required' => false,
             ])
         ;
     }
