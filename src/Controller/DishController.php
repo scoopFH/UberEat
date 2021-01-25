@@ -98,7 +98,7 @@ class DishController extends AbstractController
     public function showMyDishes(): Response
     {
         $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
-        $dishes = $this->getUser()->getRestaurant()->getDish();
+        $dishes = $this->getUser()->getRestaurant()->getDishes();
 
         return $this->render('restorer/dish/index.html.twig', [
             'dishes' => $dishes,
@@ -111,7 +111,7 @@ class DishController extends AbstractController
     public function editMyDish(Request $request, Dish $dish): Response
     {
         $userOwnDish = false;
-        $dishes = $this->getUser()->getRestaurant()->getDish();
+        $dishes = $this->getUser()->getRestaurant()->getDishes();
 
         foreach ($dishes as &$myDish) {
             if ($myDish->getId() == $dish->getId()) {
@@ -145,7 +145,7 @@ class DishController extends AbstractController
     public function deleteMyDish(Request $request, Dish $dish): Response
     {
         $userOwnDish = false;
-        $dishes = $this->getUser()->getRestaurant()->getDish();
+        $dishes = $this->getUser()->getRestaurant()->getDishes();
 
         foreach ($dishes as &$myDish) {
             if ($myDish->getId() == $dish->getId()) {

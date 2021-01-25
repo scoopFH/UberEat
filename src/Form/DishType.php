@@ -3,6 +3,8 @@
 namespace App\Form;
 
 use App\Entity\Dish;
+use App\Entity\Restaurant;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -17,6 +19,11 @@ class DishType extends AbstractType
             ->add('name', TextType::class)
             ->add('price', IntegerType::class)
             ->add('preview', TextType::class)
+            ->add('restaurant', EntityType::class, [
+                'class' => Restaurant::class,
+                'choice_label' => 'name',
+                'expanded' => true,
+            ]);
         ;
     }
 

@@ -1,13 +1,15 @@
-{% extends 'base.html.twig' %}
+{% include 'components/admin/base_admin.html.twig' %}
+{% include 'components/admin/nav_admin.html.twig' %}
+{% include 'components/admin/body_header.html.twig' %}
 
-{% block title %}{{parent()}}Edit Dish{% endblock %}
+{% block title %}Edit Dish{% endblock %}
 
 {% block body %}
     <h1>Edit Dish</h1>
 
-    {{ include('dish/_form.html.twig', {'button_label': 'Update'}) }}
+    {{ include('admin/dish/_form.html.twig', {'button_label': 'Update'}) }}
 
-    <a href="{{ path('dish_index') }}">back to list</a>
-
-    {{ include('dish/_delete_form.html.twig') }}
+    <a class="btn btn-primary" href="{{ path('dish_index') }}">back to list</a>
 {% endblock %}
+
+{% include 'components/admin/footer_admin.html.twig' %}

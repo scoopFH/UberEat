@@ -1,39 +1,57 @@
-{% extends 'base.html.twig' %}
+{% include 'components/admin/base_admin.html.twig' %}
+    {% include 'components/admin/nav_admin.html.twig' %}
+    {% include 'components/admin/body_header.html.twig' %}
+    {% block body %}
+        <div class="row">
+            <div class="col-md-12">
+                <!-- DATA TABLE -->
+                <h3 class="title-5 m-b-35">Dish Table</h3>
+                <div class="table-data__tool-right">
+                    <a class="au-btn au-btn-icon au-btn--green au-btn--small" href="{{ path('dish_new') }}">
+                        <i class="zmdi zmdi-plus"></i>add dish</a>
+                </div>
+            </div>
+            <div class="table-responsive table-responsive-data2">
+                <table class="table table-data2">
+                    <thead>
+                    <tr>
+                        <th>id</th>
+                        <th>name</th>
+                        <th>price</th>
+                        <th>preview</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for dish in dishes %}
+                        <tr class="tr-shadow">
+                            <td>{{ dish.id }}</td>
+                            <td>{{ dish.name }}</td>
+                            <td>{{ dish.price }} $</td>
+                            <td><img src="{{ dish.preview }}"></td>
+                            <td>
+                                <div class="table-data-feature">
+                                    <a class="item" data-toggle="tooltip" data-placement="top" title="More" href="{{ path('dish_show', {'id': dish.id}) }}">
+                                        <i class="zmdi zmdi-more"></i>
+                                    </a>
+                                    <a class="item" data-toggle="tooltip" data-placement="top" title="Edit" href="{{ path('dish_edit', {'id': dish.id}) }}">
+                                        <i class="zmdi zmdi-edit"></i>
+                                    </a>
 
-{% block title %}{{parent()}}Dish index{% endblock %}
-
-{% block body %}
-    <h1>Dish index</h1>
-
-    <table class="table">
-        <thead>
-            <tr>
-                <th>Id</th>
-                <th>Name</th>
-                <th>Price</th>
-                <th>Preview</th>
-                <th>actions</th>
-            </tr>
-        </thead>
-        <tbody>
-        {% for dish in dishes %}
-            <tr>
-                <td>{{ dish.id }}</td>
-                <td>{{ dish.name }}</td>
-                <td>{{ dish.price }}</td>
-                <td>{{ dish.preview }}</td>
-                <td>
-                    <a href="{{ path('dish_show', {'id': dish.id}) }}">show</a>
-                    <a href="{{ path('dish_edit', {'id': dish.id}) }}">edit</a>
-                </td>
-            </tr>
-        {% else %}
-            <tr>
-                <td colspan="5">no records found</td>
-            </tr>
-        {% endfor %}
-        </tbody>
-    </table>
-
-    <a href="{{ path('dish_new') }}">Create new</a>
-{% endblock %}
+                                <form method="post" action="{{ path('user_delete', {'id': dish.id}) }}" onsubmit="return confirm('Are you sure you want to delete this item?');">
+                                    <input type="hidden" name="_method" value="DELETE">
+                                    <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ dish.id) }}">
+                                    <button class="item" data-toggle="tooltip" data-placement="top" title="Delete">
+                                        <i class="zmdi zmdi-delete"></i>
+                                    </button>
+                                </form>
+                                </div>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+            <!-- END DATA TABLE -->
+        </div>
+    {% endblock %}
+    {% include 'components/admin/footer_admin.html.twig' %}
