@@ -36,6 +36,7 @@ class UserType extends AbstractType
                     'admin' => 'ROLE_ADMIN'
                 ],
                 'required' => false,
+                'multiple' => true,
             ])
         ;
     }
