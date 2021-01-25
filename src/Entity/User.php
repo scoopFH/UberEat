@@ -27,7 +27,7 @@ class User implements UserInterface
     private $email;
 
     /**
-     * @ORM\Column(type="json")
+     * @ORM\Column(type="json", columnDefinition="ENUM('ROLE_USER', 'ROLE_ADMIN', 'ROLE_RESTORER')"))
      */
     private $roles = [];
 

@@ -142,7 +142,7 @@ class AppFixtures extends Fixture
         }
 
         $user = new User();
-        $user->setEmail('william@gmail.com')
+        $user->setEmail('william.klein@gmail.com')
             ->setLastname('William')
             ->setFirstname('Klein')
             ->setaddress($faker->streetAddress())
