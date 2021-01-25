@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Dish;
 use App\Form\DishType;
+use App\Form\DishRestorerType;
 use App\Repository\DishRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -120,7 +121,7 @@ class DishController extends AbstractController
         }
 
         if ($userOwnDish) {
-            $form = $this->createForm(DishType::class, $dish);
+            $form = $this->createForm(DishRestorerType::class, $dish);
             $form->handleRequest($request);
 
             if ($form->isSubmitted() && $form->isValid()) {
@@ -172,7 +173,7 @@ class DishController extends AbstractController
         $dish = new Dish();
         $dish->setRestaurant($restaurant);
 
-        $form = $this->createForm(DishType::class, $dish);
+        $form = $this->createForm(DishRestorerType::class, $dish);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
