@@ -2,7 +2,7 @@
 {% include 'components/admin/nav_admin.html.twig' %}
 {% include 'components/admin/body_header.html.twig' %}
 
-{% block title %}{{ parent() }}Edit Order{% endblock %}
+{% block title %}Edit Order{% endblock %}
 <h1>Edit Order</h1>
 {{ include('admin/order/_form.html.twig', {'button_label': 'Update'}) }}
 <a class="btn btn-primary" href="{{ path('order_index') }}">back to list</a>
