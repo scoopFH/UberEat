@@ -17,35 +17,38 @@
 				<th>Delivery_date</th>
 				<td>{{ order.deliveryDate ? order.deliveryDate|date('Y-m-d H:i:s') : '' }}</td>
 			</tr>
-			<tr>
-				<th>Order commentary</th>
-				<td></td>
-				<caption class="d-flex flex-column" style="margin-left: 10%;">
-					<p>message :
-						{{ order.commentary.message }}
-					</p>
-					<p>send the
-						{{ order.commentary.sendDate ? order.deliveryDate|date('Y-m-d H:i:s') : '' }}
-					</p>
-				</caption>
-			</tr>
+			{% if order.message is not null %}
+				<tr>
+					<th>Order commentary</th>
+					<td></td>
+					<caption class="d-flex flex-column" style="margin-left: 10%;">
+						<p>message :
+							{{ order.commentary.message }}
+						</p>
+						<p>send the
+							{{ order.commentary.sendDate ? order.deliveryDate|date('Y-m-d H:i:s') : '' }}
+						</p>
+					</caption>
+				</tr>
+			{% endif %}
 			<tr>
 				<th>Dishes</th>
 				<td></td>
 				<caption class="d-flex flex-column" style="margin-left: 10%;">
 					{% for orderDish in order.orderDishes %}
 						<p>
-							{{ orderDish.quantity }} {{ orderDish.dish.name }}
+							{{ orderDish.quantity }}
+							{{ orderDish.dish.name }}
 						</p>
 					{% endfor %}
 				</caption>
 			</tr>
 		</tbody>
-	</table>
+	</tbody>
+</table>
 
-	<a href="{{ path('order_index') }}">back to list</a>
+<a href="{{ path('order_index') }}">back to list</a>
 
-	<a href="{{ path('order_edit', {'id': order.id}) }}">edit</a>
+<a href="{{ path('order_edit', {'id': order.id}) }}">edit</a>
 
-	{{ include('admin/order/_delete_form.html.twig') }}
-{% endblock %}
+{{ include('admin/order/_delete_form.html.twig') }}{% endblock %}</tbody>

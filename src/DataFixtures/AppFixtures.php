@@ -166,9 +166,9 @@ class AppFixtures extends Fixture
         $manager->persist($user);
 
         $user = new User();
-        $user->setEmail('daniel@gmail.com')
-            ->setLastname('Daniel')
-            ->setFirstname('Faucheron')
+        $user->setEmail('stef.klein38@gmail.com')
+            ->setLastname('Stef')
+            ->setFirstname('Klein')
             ->setaddress($faker->streetAddress())
             ->setCity($faker->state())
             ->setBalance($faker->numberBetween(60,2450))
