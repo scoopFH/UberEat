@@ -36,7 +36,7 @@ class Order
     private $users;
 
     /**
-     * @ORM\Column(type="string", length=255, columnDefinition="ENUM('delivered', 'in delivering', 'in preparation')") )
+     * @ORM\Column(type="string", length=255, columnDefinition="ENUM('delivered', 'in delivering', 'in preparation')" )
      */
     private $state;
 
