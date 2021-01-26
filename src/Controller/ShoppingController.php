@@ -181,8 +181,8 @@ class ShoppingController extends AbstractController
 
             $email = (new TemplatedEmail())
                 ->from('ubereat@gmail.com')
-                // ->to('matthiaschometon787@gmail.com')
-                ->to($user->getEmail())
+                ->to('matthiaschometon787@gmail.com')
+                //->to($user->getEmail())
                 ->subject('command of ' . $user->getFirstname() . ' ' . $user->getLastname())
                 ->htmlTemplate('email/validation_command.html.twig')
                 ->context([
