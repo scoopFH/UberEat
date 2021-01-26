@@ -1,7 +1,7 @@
 {% include 'components/admin/base_admin.html.twig' %}
 {% include 'components/admin/nav_admin.html.twig' %}
 {% include 'components/admin/body_header.html.twig' %}
-{% block title %}Order Index{% endblock %}
+{% block title %}{{ parent() }}Order Index{% endblock %}
 
 {% block body %}
 	<h1>Order</h1>

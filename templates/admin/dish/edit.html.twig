@@ -2,7 +2,7 @@
 {% include 'components/admin/nav_admin.html.twig' %}
 {% include 'components/admin/body_header.html.twig' %}
 
-{% block title %}Edit Dish{% endblock %}
+{% block title %}{{ parent() }}Edit Dish{% endblock %}
 
 {% block body %}
     <h1>Edit Dish</h1>
