@@ -1,54 +1,57 @@
-{% extends 'base.html.twig' %}
-
-{% block title %}
-	{{parent()}}Order
-{% endblock %}
+{% include 'components/admin/base_admin.html.twig' %}
+{% include 'components/admin/nav_admin.html.twig' %}
+{% include 'components/admin/body_header.html.twig' %}
+{% block title %}show Dish{% endblock %}
 
 {% block body %}
-	<h1>Order</h1>
-
-	<table class="table">
-		<tbody>
-			<tr>
-				<th>Id</th>
-				<td>{{ order.id }}</td>
-			</tr>
-			<tr>
-				<th>Delivery_date</th>
-				<td>{{ order.deliveryDate ? order.deliveryDate|date('Y-m-d H:i:s') : '' }}</td>
-			</tr>
-			{% if order.message is not null %}
-				<tr>
-					<th>Order commentary</th>
-					<td></td>
-					<caption class="d-flex flex-column" style="margin-left: 10%;">
-						<p>message :
-							{{ order.commentary.message }}
-						</p>
-						<p>send the
-							{{ order.commentary.sendDate ? order.deliveryDate|date('Y-m-d H:i:s') : '' }}
-						</p>
-					</caption>
-				</tr>
-			{% endif %}
-			<tr>
-				<th>Dishes</th>
-				<td></td>
-				<caption class="d-flex flex-column" style="margin-left: 10%;">
-					{% for orderDish in order.orderDishes %}
-						<p>
-							{{ orderDish.quantity }}
-							{{ orderDish.dish.name }}
-						</p>
-					{% endfor %}
-				</caption>
-			</tr>
-		</tbody>
-	</tbody>
-</table>
-
-<a href="{{ path('order_index') }}">back to list</a>
-
-<a href="{{ path('order_edit', {'id': order.id}) }}">edit</a>
-
-{{ include('admin/order/_delete_form.html.twig') }}{% endblock %}</tbody>
+	<h1>Dish</h1>
+	<div class="container-fluid">
+		<div class="row">
+			<div class="col-lg-12">
+				<div class="table-responsive table--no-card m-b-30">
+					<table class="table table-borderless table-striped table-earning">
+						<thead>
+						<tr>
+							<th>Id</th>
+							<th>Delivery Date</th>
+							<th>Dishes</th>
+							<th>Order Commentary</th>
+						</tr>
+						</thead>
+						<tbody>
+						<tr>
+							<td>{{ order.id }}</td>
+							<td>{{ order.deliveryDate ? order.deliveryDate|date('Y-m-d H:i:s') : '' }}</td>
+							<td>
+								<caption class="d-flex flex-column" style="margin-left: 10%;">
+									{% for orderDish in order.orderDishes %}
+										<p>
+											{{ orderDish.quantity }}
+											{{ orderDish.dish.name }}
+										</p>
+									{% endfor %}
+								</caption>
+							</td>
+							{% if order.message is defined and order.message is null %}
+							<td>
+								<caption class="d-flex flex-column" style="margin-left: 10%;">
+									<p>message :
+										{{ order.commentary.message }}
+									</p>
+									<p>send the
+										{{ order.commentary.sendDate ? order.deliveryDate|date('Y-m-d H:i:s') : '' }}
+									</p>
+									{% endif %}
+								</caption>
+							</td>
+						</tr>
+						</tbody>
+					</table>
+				</div>
+			</div>
+		</div>
+	</div>
+	<a class="btn btn-primary" href="{{ path('order_index') }}">back to list</a>
+	<a class="btn btn-primary" href="{{ path('order_edit', {'id': order.id}) }}">edit</a>
+{% endblock %}
+		{% include 'components/admin/footer_admin.html.twig' %}
