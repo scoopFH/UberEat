@@ -75,7 +75,6 @@ class ShoppingController extends AbstractController
         $this->shoppingBasket[$id]++;
 
         $this->session->set('shoppingBasket', $this->shoppingBasket);
-
         return $this->redirectToRoute('shopping_index');
     }
 
@@ -163,11 +162,12 @@ class ShoppingController extends AbstractController
             $entityManager->persist($order);
             $entityManager->flush();
 
-            $restorerMail = $restaurant->getUsers()->getEmail();
+            //$restorerMail = $restaurant->getUsers()->getEmail();
 
             $email = (new TemplatedEmail())
                 ->from('ubereat@gmail.com')
-                ->to($user->getEmail())
+                // ->to($restorerMail)
+                ->to('matthiaschometon787@gmail.com')
                 ->subject('Your command')
                 ->htmlTemplate('email/validation_command.html.twig')
                 ->context([
@@ -181,7 +181,8 @@ class ShoppingController extends AbstractController
 
             $email = (new TemplatedEmail())
                 ->from('ubereat@gmail.com')
-                ->to($restorerMail)
+                // ->to('matthiaschometon787@gmail.com')
+                ->to($user->getEmail())
                 ->subject('command of ' . $user->getFirstname() . ' ' . $user->getLastname())
                 ->htmlTemplate('email/validation_command.html.twig')
                 ->context([

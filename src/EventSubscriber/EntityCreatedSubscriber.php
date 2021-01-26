@@ -32,6 +32,7 @@ class EntityCreatedSubscriber implements EventSubscriber
 
     if ($object instanceof User) {
       $object->setPassword($this->encoder->encodePassword($object, $object->getPassword()));
+      $object->setBalance(300);
     }
 
     if ($object instanceof Order) {
