@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}{{parent()}}Restaurant index
+{% block title %}{{parent()}}{{ app.user.restaurant.name }}
 {% endblock %}
 
 {% block body %}
