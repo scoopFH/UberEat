@@ -23,7 +23,7 @@
 							<td>{{ order.id }}</td>
 							<td>{{ order.deliveryDate ? order.deliveryDate|date('Y-m-d H:i:s') : '' }}</td>
 							<td>
-								<caption class="d-flex flex-column" style="margin-left: 10%;">
+								<caption class="d-flex" style="margin-left: 10%;">
 									{% for orderDish in order.orderDishes %}
 										<p>
 											{{ orderDish.quantity }}
@@ -34,7 +34,7 @@
 							</td>
 							{% if order.commentary is defined and order.commentary is not null %}
 							<td>
-								<caption class="d-flex flex-column" style="margin-left: 10%;">
+								<caption class="d-flex" style="margin-left: 10%;">
 									<p>message :
 										{{ order.commentary.message }}
 									</p>
