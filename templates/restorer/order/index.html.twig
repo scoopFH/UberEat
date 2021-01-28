@@ -30,7 +30,7 @@
 
 					</td>
 					<td>{{ order.state }}</td>
-					{% if order.commentary not null %}
+					{% if order.commentary is defined and order.commentary is not null %}
 					<td>
 						"
 						{{ order.commentary.message }}
