@@ -164,35 +164,35 @@ class ShoppingController extends AbstractController
 
             //$restorerMail = $restaurant->getUsers()->getEmail();
 
-            $email = (new TemplatedEmail())
-                ->from('ubereat@gmail.com')
-                // ->to($restorerMail)
-                ->to('matthiaschometon787@gmail.com')
-                ->subject('Your command')
-                ->htmlTemplate('email/validation_command.html.twig')
-                ->context([
-                    'order' => $order,
-                    'orderDishes' => $orderDishes,
-                    'total' => $total,
-                    'user' => $user,
-                ]);
+            // $email = (new TemplatedEmail())
+            //     ->from('ubereat@gmail.com')
+            //     // ->to($restorerMail)
+            //     ->to('matthiaschometon787@gmail.com')
+            //     ->subject('Your command')
+            //     ->htmlTemplate('email/validation_command.html.twig')
+            //     ->context([
+            //         'order' => $order,
+            //         'orderDishes' => $orderDishes,
+            //         'total' => $total,
+            //         'user' => $user,
+            //     ]);
 
-            $mailer->send($email);
+            // $mailer->send($email);
 
-            $email = (new TemplatedEmail())
-                ->from('ubereat@gmail.com')
-                ->to('matthiaschometon787@gmail.com')
-                //->to($user->getEmail())
-                ->subject('command of ' . $user->getFirstname() . ' ' . $user->getLastname())
-                ->htmlTemplate('email/validation_command.html.twig')
-                ->context([
-                    'order' => $order,
-                    'orderDishes' => $orderDishes,
-                    'total' => $total,
-                    'user' => $user,
-                ]);
+            // $email = (new TemplatedEmail())
+            //     ->from('ubereat@gmail.com')
+            //     ->to('matthiaschometon787@gmail.com')
+            //     //->to($user->getEmail())
+            //     ->subject('command of ' . $user->getFirstname() . ' ' . $user->getLastname())
+            //     ->htmlTemplate('email/validation_command.html.twig')
+            //     ->context([
+            //         'order' => $order,
+            //         'orderDishes' => $orderDishes,
+            //         'total' => $total,
+            //         'user' => $user,
+            //     ]);
 
-            $mailer->send($email);
+            // $mailer->send($email);
 
             $this->session->remove('shoppingBasket');
             $this->addFlash('success', 'Your order has been completed');
