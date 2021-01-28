@@ -37,6 +37,8 @@
 						"
 												the
 						{{ order.commentary.sendDate ? order.commentary.sendDate|date('Y-m-d H:i:s') : '' }}</td>
+					{% else %}
+						<td>No Commentary</td>
 					{% endif %}
 					<td>
 						<a href="{{ path('restorer_order_edit', {'id': order.id}) }}">
