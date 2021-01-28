@@ -30,12 +30,14 @@
 
 					</td>
 					<td>{{ order.state }}</td>
+					{% if order.commentary not null %}
 					<td>
 						"
 						{{ order.commentary.message }}
 						"
 												the
 						{{ order.commentary.sendDate ? order.commentary.sendDate|date('Y-m-d H:i:s') : '' }}</td>
+					{% endif %}
 					<td>
 						<a href="{{ path('restorer_order_edit', {'id': order.id}) }}">
 							edit
