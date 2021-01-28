@@ -31,7 +31,9 @@ class EntityChangeSubscriber implements EventSubscriber
     $object = $args->getObject();
 
     if ($object instanceof User) {
-      $object->setPassword($this->encoder->encodePassword($object,  $object->getPassword()));
+      if (stristr($object->getPassword(), '$argon2') === FALSE) {
+        $object->setPassword($this->encoder->encodePassword($object,  $object->getPassword()));
+      }
     }
   }
 }
