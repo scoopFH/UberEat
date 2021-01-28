@@ -32,7 +32,7 @@
 									{% endfor %}
 								</caption>
 							</td>
-							{% if order.commentary is defined and order.commentary is null %}
+							{% if order.commentary is defined and order.commentary is not null %}
 							<td>
 								<caption class="d-flex flex-column" style="margin-left: 10%;">
 									<p>message :
@@ -48,7 +48,6 @@
 						</tbody>
 					</table>
 				</div>
-				{{ dump(order.commentary) }}
 			</div>
 		</div>
 	</div>
