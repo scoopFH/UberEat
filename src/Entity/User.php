@@ -68,7 +68,7 @@ class User implements UserInterface
     private $restaurant;
 
     /**
-     * @ORM\OneToMany(targetEntity=Order::class, mappedBy="users")
+     * @ORM\OneToMany(targetEntity=Order::class, mappedBy="users", cascade={"persist", "remove"})
      */
     private $orders;
 
