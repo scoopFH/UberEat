@@ -1,12 +1,13 @@
-{% include 'components/admin/base_admin.html.twig' %}
-{% include 'components/admin/nav_admin.html.twig' %}
-{% include 'components/admin/body_header.html.twig' %}
+{% extends 'base.html.twig' %}
 
-{% block title %}My profile{% endblock %}
+{% block title %}My profile
+{% endblock %}
 
 {% block body %}
-    <h1>My profile</h1>
-    {{ include('/user/account/_form.html.twig', {'button_label': 'Update'}) }}
-    <a class="btn btn-primary" href="{{ path('admin_stat') }}">back to list</a>
+	<h1>My profile</h1>
+	{{include('/user/account/_form.html.twig', {'button_label': 'Update'})}}
+	{% if 'ROLE_ADMIN' in app.user.roles %}
+		<a class="btn btn-primary" href="{{ path('admin_stat') }}">back to list</a>
+	{% endif %}
 {% endblock %}
-{% include 'components/admin/footer_admin.html.twig' %}
+
